@@ -1,0 +1,62 @@
+<svg width="58" height="64" viewBox="0 0 58 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_d_3930_98530)">
+<rect x="4" y="2" width="49.4118" height="56" rx="2.85496" fill="white"/>
+<rect x="4.5" y="2.5" width="48.4118" height="55" rx="2.35496" stroke="#0F151A"/>
+<rect x="9" y="7" width="16" height="3" rx="1.5" fill="#D5E1ED"/>
+<rect x="9" y="14" width="16" height="3" rx="1.5" fill="#D5E1ED"/>
+<rect x="9" y="21" width="16" height="3" rx="1.5" fill="#D5E1ED"/>
+<rect x="9" y="28" width="16" height="3" rx="1.5" fill="#D5E1ED"/>
+<rect x="9" y="35" width="16" height="3" rx="1.5" fill="#D5E1ED"/>
+<rect x="9" y="42" width="16" height="3" rx="1.5" fill="#D5E1ED"/>
+<rect x="9" y="49" width="16" height="3" rx="1.5" fill="#D5E1ED"/>
+<circle cx="28.4444" cy="8.44444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="33.3331" cy="8.44444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="38.2218" cy="8.44444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="43.1114" cy="8.44444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="48.0001" cy="8.44444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="28.4444" cy="15.4444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="33.3331" cy="15.4444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="38.2218" cy="15.4444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="43.1114" cy="15.4444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="48.0001" cy="15.4444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="28.4444" cy="22.4444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="33.3331" cy="22.4444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="38.2218" cy="22.4444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="43.1114" cy="22.4444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="48.0001" cy="22.4444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="28.4444" cy="36.4444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="33.3331" cy="36.4444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="38.2218" cy="36.4444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="43.1114" cy="36.4444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="48.0001" cy="36.4444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="28.4444" cy="43.4444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="33.3331" cy="43.4444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="38.2218" cy="43.4444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="43.1114" cy="43.4444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="48.0001" cy="43.4444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="28.4444" cy="29.4444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="33.3331" cy="29.4444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="38.2218" cy="29.4444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="43.1114" cy="29.4444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="48.0001" cy="29.4444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="28.4444" cy="50.4444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="33.3331" cy="50.4444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="38.2218" cy="50.4444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="43.1114" cy="50.4444" r="1.44444" fill="#D5E1ED"/>
+<circle cx="48.0001" cy="50.4444" r="1.44444" fill="#D5E1ED"/>
+<path d="M40 27L36 32M36 27L40 32" stroke="#5880F1" stroke-width="2" stroke-linecap="round" stroke-linejoin="bevel"/>
+<path d="M31 13L27 18M27 13L31 18" stroke="#5880F1" stroke-width="2" stroke-linecap="round" stroke-linejoin="bevel"/>
+</g>
+<defs>
+<filter id="filter0_d_3930_98530" x="0" y="0" width="57.4121" height="64" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="2"/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.074375 0 0 0 0 0.207589 0 0 0 0 0.330555 0 0 0 0.07 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_3930_98530"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_3930_98530" result="shape"/>
+</filter>
+</defs>
+</svg>

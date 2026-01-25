@@ -1,0 +1,24 @@
+<svg width="144" height="88" viewBox="0 0 144 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="1" y="0.5" width="142" height="87" rx="5.36667" fill="white"/>
+<rect x="1" y="0.5" width="142" height="87" rx="5.36667" stroke="#5880F1"/>
+<!-- Title and text -->
+<rect x="12" y="8" width="120" height="8" rx="2.93333" fill="#B5C8FF"/>
+<rect x="12" y="18" width="120" height="3" rx="1.5" fill="#B5C8FF"/>
+<rect x="12" y="23" width="110" height="3" rx="1.5" fill="#B5C8FF"/>
+<rect x="12" y="28" width="120" height="3" rx="1.5" fill="#B5C8FF"/>
+<!-- Image 1 -->
+<rect x="12" y="38" width="36" height="38" rx="2" fill="#B5C8FF"/>
+<circle cx="18" cy="46" r="2.5" fill="white"/>
+<path d="M36 68C37 62 41 52 46 65C51 78 41 75 36 68Z" fill="white"/>
+<path d="M18 72C20 67 26 59 34 69C42 79 28 76 18 72Z" fill="white"/>
+<!-- Image 2 -->
+<rect x="54" y="38" width="36" height="38" rx="2" fill="#B5C8FF"/>
+<circle cx="60" cy="46" r="2.5" fill="white"/>
+<path d="M78 68C79 62 83 52 88 65C93 78 83 75 78 68Z" fill="white"/>
+<path d="M60 72C62 67 68 59 76 69C84 79 70 76 60 72Z" fill="white"/>
+<!-- Image 3 -->
+<rect x="96" y="38" width="36" height="38" rx="2" fill="#B5C8FF"/>
+<circle cx="102" cy="46" r="2.5" fill="white"/>
+<path d="M120 68C121 62 125 52 130 65C135 78 125 75 120 68Z" fill="white"/>
+<path d="M102 72C104 67 110 59 118 69C126 79 112 76 102 72Z" fill="white"/>
+</svg>

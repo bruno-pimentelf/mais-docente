@@ -1,0 +1,44 @@
+<svg width="144" height="88" viewBox="0 0 144 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="1" y="0.5" width="142" height="87" rx="5.36667" fill="white"/>
+  <rect x="1" y="0.5" width="142" height="87" rx="5.36667" stroke="#5880F1"/>
+  <!-- Title -->
+  <rect x="12" y="8" width="120" height="8" rx="2.93333" fill="#B5C8FF"/>
+  <!-- Card 1 -->
+  <rect x="12" y="24" width="36" height="52" rx="2.93333" fill="#B5C8FF"/>
+  <!-- Card 1 Image Area -->
+  <rect x="16" y="28" width="28" height="18" rx="2" fill="white"/>
+  <!-- Card 1 Title -->
+  <rect x="16" y="49" width="28" height="3" rx="1.5" fill="white"/>
+  <!-- Card 1 Text -->
+  <rect x="16" y="54" width="24" height="2.5" rx="1.25" fill="white"/>
+  <rect x="16" y="58" width="28" height="2.5" rx="1.25" fill="white"/>
+  <rect x="16" y="62" width="20" height="2.5" rx="1.25" fill="white"/>
+  <rect x="16" y="66" width="26" height="2.5" rx="1.25" fill="white"/>
+  <rect x="16" y="70" width="18" height="2.5" rx="1.25" fill="white"/>
+
+  <!-- Card 2 -->
+  <rect x="54" y="24" width="36" height="52" rx="2.93333" fill="#B5C8FF"/>
+  <!-- Card 2 Image Area -->
+  <rect x="58" y="28" width="28" height="18" rx="2" fill="white"/>
+  <!-- Card 2 Title -->
+  <rect x="58" y="49" width="28" height="3" rx="1.5" fill="white"/>
+  <!-- Card 2 Text -->
+  <rect x="58" y="54" width="24" height="2.5" rx="1.25" fill="white"/>
+  <rect x="58" y="58" width="28" height="2.5" rx="1.25" fill="white"/>
+  <rect x="58" y="62" width="20" height="2.5" rx="1.25" fill="white"/>
+  <rect x="58" y="66" width="26" height="2.5" rx="1.25" fill="white"/>
+  <rect x="58" y="70" width="18" height="2.5" rx="1.25" fill="white"/>
+
+  <!-- Card 3 -->
+  <rect x="96" y="24" width="36" height="52" rx="2.93333" fill="#B5C8FF"/>
+  <!-- Card 3 Image Area -->
+  <rect x="100" y="28" width="28" height="18" rx="2" fill="white"/>
+  <!-- Card 3 Title -->
+  <rect x="100" y="49" width="28" height="3" rx="1.5" fill="white"/>
+  <!-- Card 3 Text -->
+  <rect x="100" y="54" width="24" height="2.5" rx="1.25" fill="white"/>
+  <rect x="100" y="58" width="28" height="2.5" rx="1.25" fill="white"/>
+  <rect x="100" y="62" width="20" height="2.5" rx="1.25" fill="white"/>
+  <rect x="100" y="66" width="26" height="2.5" rx="1.25" fill="white"/>
+  <rect x="100" y="70" width="18" height="2.5" rx="1.25" fill="white"/>
+</svg>

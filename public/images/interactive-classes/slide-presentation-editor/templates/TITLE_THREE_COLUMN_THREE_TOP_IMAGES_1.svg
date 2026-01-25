@@ -1,0 +1,48 @@
+<svg width="143" height="88" viewBox="0 0 143 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_2217_3973)">
+<rect width="143" height="88" rx="5.86667" fill="white"/>
+<g clip-path="url(#clip1_2217_3973)">
+<rect x="9" y="22" width="36.6667" height="32" rx="1.68914" fill="#EFF5FB"/>
+<circle cx="15.8509" cy="29.6012" r="3.37828" fill="#D5E1ED"/>
+<path d="M29.2109 50.7936C31.0561 42.0944 39.2018 23.2663 48.3826 43.0981C57.5634 62.9298 38.7068 58.6208 29.2109 50.7936Z" fill="#D5E1ED"/>
+<path d="M12.8125 53.3317C15.3124 46.6096 26.3485 32.0607 38.787 47.3852C51.2255 62.7098 25.6778 59.3801 12.8125 53.3317Z" fill="#D5E1ED"/>
+</g>
+<rect x="9" y="58.3999" width="36.6667" height="4.4" rx="2.2" fill="#D5E1ED"/>
+<rect x="9" y="65.7332" width="32" height="5" rx="2.5" fill="#D5E1ED"/>
+<rect x="9" y="73.6665" width="36.6667" height="4.4" rx="2.2" fill="#D5E1ED"/>
+<g clip-path="url(#clip2_2217_3973)">
+<rect x="53.668" y="22" width="36.6667" height="32" rx="1.68914" fill="#EFF5FB"/>
+<circle cx="60.5189" cy="29.6012" r="3.37828" fill="#D5E1ED"/>
+<path d="M73.8789 50.7936C75.7241 42.0944 83.8698 23.2663 93.0506 43.0981C102.231 62.9298 83.3747 58.6208 73.8789 50.7936Z" fill="#D5E1ED"/>
+<path d="M57.4805 53.3317C59.9804 46.6096 71.0165 32.0607 83.455 47.3852C95.8935 62.7098 70.3458 59.3801 57.4805 53.3317Z" fill="#D5E1ED"/>
+</g>
+<rect x="53.668" y="58.3999" width="36.6667" height="4.4" rx="2.2" fill="#D5E1ED"/>
+<rect x="53.668" y="65.7332" width="33" height="5" rx="2.5" fill="#D5E1ED"/>
+<rect x="53.668" y="73.6665" width="36.6667" height="4.4" rx="2.2" fill="#D5E1ED"/>
+<g clip-path="url(#clip3_2217_3973)">
+<rect x="98.332" y="22" width="36.6667" height="32" rx="1.68914" fill="#EFF5FB"/>
+<circle cx="105.183" cy="29.6012" r="3.37828" fill="#D5E1ED"/>
+<path d="M118.543 50.7936C120.388 42.0944 128.534 23.2663 137.715 43.0981C146.895 62.9298 128.039 58.6208 118.543 50.7936Z" fill="#D5E1ED"/>
+<path d="M102.145 53.3317C104.644 46.6096 115.681 32.0607 128.119 47.3852C140.558 62.7098 115.01 59.3801 102.145 53.3317Z" fill="#D5E1ED"/>
+</g>
+<rect x="98.332" y="58.3999" width="36.6667" height="4.4" rx="2.2" fill="#D5E1ED"/>
+<rect x="98.332" y="65.7332" width="32" height="5" rx="2.5" fill="#D5E1ED"/>
+<rect x="98.332" y="73.6665" width="36.6667" height="4.4" rx="2.2" fill="#D5E1ED"/>
+<rect x="9" y="9" width="106" height="7" rx="2.93333" fill="#D5E1ED"/>
+</g>
+<rect x="0.5" y="0.5" width="142" height="87" rx="5.36667" stroke="#D5E1ED"/>
+<defs>
+<clipPath id="clip0_2217_3973">
+<rect width="143" height="88" rx="5.86667" fill="white"/>
+</clipPath>
+<clipPath id="clip1_2217_3973">
+<rect x="9" y="22" width="36.6667" height="32" rx="1.68914" fill="white"/>
+</clipPath>
+<clipPath id="clip2_2217_3973">
+<rect x="53.668" y="22" width="36.6667" height="32" rx="1.68914" fill="white"/>
+</clipPath>
+<clipPath id="clip3_2217_3973">
+<rect x="98.332" y="22" width="36.6667" height="32" rx="1.68914" fill="white"/>
+</clipPath>
+</defs>
+</svg>

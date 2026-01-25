@@ -1,0 +1,23 @@
+<svg width="144" height="88" viewBox="0 0 144 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="1" y="0.5" width="142" height="87" rx="5.36667" fill="white"/>
+<rect x="1" y="0.5" width="142" height="87" rx="5.36667" stroke="#5880F1"/>
+<!-- Large image on the left -->
+<rect x="12" y="16" width="52" height="56" rx="2.93333" fill="#B5C8FF"/>
+<circle cx="22" cy="28" r="4" fill="white"/>
+<path d="M42 64C44 56 52 42 60 60C68 78 50 74 42 64Z" fill="white"/>
+<path d="M22 68C25 61 36 47 50 62C64 77 34 73 22 68Z" fill="white"/>
+<!-- Title -->
+<rect x="70" y="16" width="62" height="6" rx="2" fill="#B5C8FF"/>
+<!-- Section 1 -->
+<rect x="70" y="28" width="62" height="3" rx="1.5" fill="#B5C8FF"/>
+<rect x="70" y="33" width="54" height="2.5" rx="1.25" fill="#B5C8FF"/>
+<rect x="70" y="37" width="62" height="2.5" rx="1.25" fill="#B5C8FF"/>
+<!-- Section 2 -->
+<rect x="70" y="44" width="62" height="3" rx="1.5" fill="#B5C8FF"/>
+<rect x="70" y="49" width="54" height="2.5" rx="1.25" fill="#B5C8FF"/>
+<rect x="70" y="53" width="62" height="2.5" rx="1.25" fill="#B5C8FF"/>
+<!-- Section 3 -->
+<rect x="70" y="60" width="62" height="3" rx="1.5" fill="#B5C8FF"/>
+<rect x="70" y="65" width="54" height="2.5" rx="1.25" fill="#B5C8FF"/>
+<rect x="70" y="69" width="62" height="2.5" rx="1.25" fill="#B5C8FF"/>
+</svg>

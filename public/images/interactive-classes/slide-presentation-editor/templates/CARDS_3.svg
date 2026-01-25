@@ -1,0 +1,33 @@
+<svg width="144" height="88" viewBox="0 0 144 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="1" y="0.5" width="142" height="87" rx="5.36667" fill="white"/>
+<rect x="1" y="0.5" width="142" height="87" rx="5.36667" stroke="#5880F1"/>
+<!-- Title -->
+<rect x="12" y="8" width="120" height="8" rx="2.93333" fill="#B5C8FF"/>
+<!-- Card 1 -->
+<rect x="12" y="24" width="36" height="52" rx="2.93333" fill="white" stroke="#B5C8FF"/>
+<circle cx="30" cy="36" r="6" fill="#B5C8FF"/>
+<rect x="16" y="46" width="28" height="3" rx="1.5" fill="#B5C8FF"/>
+<rect x="16" y="51" width="24" height="2.5" rx="1.25" fill="#B5C8FF"/>
+<rect x="16" y="55" width="28" height="2.5" rx="1.25" fill="#B5C8FF"/>
+<rect x="16" y="59" width="20" height="2.5" rx="1.25" fill="#B5C8FF"/>
+<rect x="16" y="63" width="26" height="2.5" rx="1.25" fill="#B5C8FF"/>
+<rect x="16" y="67" width="18" height="2.5" rx="1.25" fill="#B5C8FF"/>
+<!-- Card 2 -->
+<rect x="54" y="24" width="36" height="52" rx="2.93333" fill="white" stroke="#B5C8FF"/>
+<circle cx="72" cy="36" r="6" fill="#B5C8FF"/>
+<rect x="58" y="46" width="28" height="3" rx="1.5" fill="#B5C8FF"/>
+<rect x="58" y="51" width="24" height="2.5" rx="1.25" fill="#B5C8FF"/>
+<rect x="58" y="55" width="28" height="2.5" rx="1.25" fill="#B5C8FF"/>
+<rect x="58" y="59" width="20" height="2.5" rx="1.25" fill="#B5C8FF"/>
+<rect x="58" y="63" width="26" height="2.5" rx="1.25" fill="#B5C8FF"/>
+<rect x="58" y="67" width="18" height="2.5" rx="1.25" fill="#B5C8FF"/>
+<!-- Card 3 -->
+<rect x="96" y="24" width="36" height="52" rx="2.93333" fill="white" stroke="#B5C8FF"/>
+<circle cx="114" cy="36" r="6" fill="#B5C8FF"/>
+<rect x="100" y="46" width="28" height="3" rx="1.5" fill="#B5C8FF"/>
+<rect x="100" y="51" width="24" height="2.5" rx="1.25" fill="#B5C8FF"/>
+<rect x="100" y="55" width="28" height="2.5" rx="1.25" fill="#B5C8FF"/>
+<rect x="100" y="59" width="20" height="2.5" rx="1.25" fill="#B5C8FF"/>
+<rect x="100" y="63" width="26" height="2.5" rx="1.25" fill="#B5C8FF"/>
+<rect x="100" y="67" width="18" height="2.5" rx="1.25" fill="#B5C8FF"/>
+</svg>

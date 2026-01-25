@@ -1,0 +1,185 @@
+import { v4 } from 'uuid';
+import {
+  Slide,
+  SlideElementBaseTypes,
+  SlideLayoutVariants,
+  SlideText,
+  SlideTextElementsVariants,
+  SlideThemeType,
+  SlideVariants,
+  TextAlignment,
+} from '../../types/index';
+import {
+  createCardElement,
+  ensureEqualHeights,
+  getLogoImageElement,
+  getTextHeight,
+  processMarkdownFormatting,
+  SLIDE_ELEMENT_MIN_Y,
+  SLIDE_MARGIN,
+} from '../helpers/slide-utils';
+import { SlideTypeColors } from '../types/slide-theme.types';
+import { ITitleTwoCardTwoTopImages4SlideFactory } from './slide-factory.interface';
+
+export class TitleTwoCardTwoTopImages4SlideFactory implements ITitleTwoCardTwoTopImages4SlideFactory {
+  constructor(private colors: SlideTypeColors) {}
+
+  create(
+    title: string,
+    paragraph_title: string,
+    card_1_image: string,
+    card_1_title: string,
+    card_1_text: string,
+    card_2_image: string,
+    card_2_title: string,
+    card_2_text: string,
+    logo_path: string,
+    slideOrder: number
+  ): Slide {
+    const slideWidth = 1920;
+    const slideHeight = 1080;
+
+    // Title and paragraph on the left side
+    const titleWidth = 540;
+    const titleGap = 40; // Gap between title section and cards
+    const cardGap = 40; // Gap between the two cards
+
+    const titleHeight = getTextHeight({
+      text: `<span style="overflow-wrap: break-word; color: ${this.colors.titleColor}; font-weight: bold;">${processMarkdownFormatting(title)}</span>`,
+      fontSize: 80,
+      fontFamily: 'Quicksand',
+      lineHeight: 1.1,
+      width: titleWidth,
+    });
+
+    const titleElement: SlideText = {
+      id: v4(),
+      type: SlideElementBaseTypes.TEXT,
+      subtype: SlideTextElementsVariants.PARAGRAPH,
+      text: `<span style="overflow-wrap: break-word; color: ${this.colors.titleColor}; font-weight: bold;">${processMarkdownFormatting(title)}</span>`,
+      x: SLIDE_MARGIN,
+      y: SLIDE_ELEMENT_MIN_Y,
+      width: titleWidth,
+      height: titleHeight,
+
+      options: { isVisible: true, label: 'Title' },
+      fontSize: 80,
+      fontFamily: 'Quicksand',
+      textAlign: TextAlignment.Left,
+      lineHeight: 1.1,
+    };
+
+    // Paragraph title below the main title
+    const paragraphTitleY = SLIDE_ELEMENT_MIN_Y + titleHeight + 30; // Gap after title
+    const paragraphTitleHeight = getTextHeight({
+      text: `<span style="overflow-wrap: break-word; color: ${this.colors.paragraphColor};">${processMarkdownFormatting(paragraph_title)}</span>`,
+      fontSize: 36,
+      fontFamily: 'Quicksand',
+      lineHeight: 1.2,
+      width: titleWidth,
+    });
+
+    const paragraphTitleElement: SlideText = {
+      id: v4(),
+      type: SlideElementBaseTypes.TEXT,
+      subtype: SlideTextElementsVariants.PARAGRAPH,
+      text: `<span style="overflow-wrap: break-word; color: ${this.colors.paragraphColor};">${processMarkdownFormatting(paragraph_title)}</span>`,
+      x: SLIDE_MARGIN,
+      y: paragraphTitleY,
+      width: titleWidth,
+      height: paragraphTitleHeight,
+
+      options: { isVisible: true, label: 'Paragraph Title' },
+      fontSize: 36,
+      fontFamily: 'Quicksand',
+      textAlign: TextAlignment.Left,
+      lineHeight: 1.2,
+    };
+
+    // Cards area on the right side of title and paragraph
+    const cardsStartX = SLIDE_MARGIN + titleWidth + titleGap;
+    const availableCardsWidth = slideWidth - cardsStartX - SLIDE_MARGIN; // Remaining width minus right margin
+    const cardWidth = Math.floor((availableCardsWidth - cardGap) / 2); // Two cards with gap
+    const cardHeight = slideHeight - SLIDE_ELEMENT_MIN_Y - SLIDE_MARGIN; // Full available height
+    const cardPadding = 40;
+    const imageHeight = 450; // Height for the image area
+    const cardsStartY = SLIDE_ELEMENT_MIN_Y;
+
+    const card1Elements = createCardElement({
+      image: {
+        src: card_1_image,
+        height: imageHeight,
+      },
+      title: {
+        text: card_1_title,
+        fontSize: 36,
+      },
+      text: {
+        text: card_1_text,
+        fontSize: 28,
+      },
+      cardInfo: {
+        x: cardsStartX,
+        y: cardsStartY,
+        width: cardWidth,
+        height: cardHeight,
+        padding: cardPadding,
+        cardIndex: 0,
+      },
+      colors: this.colors,
+    });
+
+    const card2Elements = createCardElement({
+      image: {
+        src: card_2_image,
+        height: imageHeight,
+      },
+      title: {
+        text: card_2_title,
+        fontSize: 36,
+      },
+      text: {
+        text: card_2_text,
+        fontSize: 28,
+      },
+      cardInfo: {
+        x: cardsStartX + cardWidth + cardGap,
+        y: cardsStartY,
+        width: cardWidth,
+        height: cardHeight,
+        padding: cardPadding,
+        cardIndex: 1,
+      },
+      colors: this.colors,
+    });
+
+    const [equalizedCard1Elements, equalizedCard2Elements] = ensureEqualHeights(
+      [card1Elements, card2Elements]
+    );
+
+    const logoImageElement = getLogoImageElement(logo_path);
+
+    return {
+      id: v4(),
+      order: slideOrder,
+      variant: SlideVariants.CUSTOM,
+      layout: SlideLayoutVariants.FULL_CONTENT,
+      slideType: SlideThemeType.TITLE_TWO_CARD_TWO_TOP_IMAGES_4,
+      themeSettings: {
+        baseWidth: slideWidth,
+        baseHeight: slideHeight,
+        width: slideWidth,
+        height: slideHeight,
+        backgroundColor: this.colors.backgroundColor,
+        backgroundImage: this.colors.backgroundImage,
+      },
+      elements: [
+        titleElement,
+        paragraphTitleElement,
+        ...equalizedCard1Elements,
+        ...equalizedCard2Elements,
+        logoImageElement,
+      ],
+    };
+  }
+}

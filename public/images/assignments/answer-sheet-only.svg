@@ -1,0 +1,62 @@
+<svg width="34" height="38" viewBox="0 0 34 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_d_4751_25834)">
+<rect x="2.71387" y="2" width="28.2353" height="32" rx="1.6314" fill="white"/>
+<rect x="2.99958" y="2.28571" width="27.6639" height="31.4286" rx="1.34569" stroke="#0F151A" stroke-width="0.571429"/>
+<rect x="5.57129" y="4.85693" width="9.14286" height="1.71429" rx="0.857143" fill="#D5E1ED"/>
+<rect x="5.57129" y="8.85693" width="9.14286" height="1.71429" rx="0.857143" fill="#D5E1ED"/>
+<rect x="5.57129" y="12.8569" width="9.14286" height="1.71429" rx="0.857143" fill="#D5E1ED"/>
+<rect x="5.57129" y="16.8569" width="9.14286" height="1.71429" rx="0.857143" fill="#D5E1ED"/>
+<rect x="5.57129" y="20.8569" width="9.14286" height="1.71429" rx="0.857143" fill="#D5E1ED"/>
+<rect x="5.57129" y="24.8569" width="9.14286" height="1.71429" rx="0.857143" fill="#D5E1ED"/>
+<rect x="5.57129" y="28.8569" width="9.14286" height="1.71429" rx="0.857143" fill="#D5E1ED"/>
+<circle cx="16.6828" cy="5.68233" r="0.825397" fill="#D5E1ED"/>
+<circle cx="19.4768" cy="5.68233" r="0.825397" fill="#D5E1ED"/>
+<circle cx="22.2697" cy="5.68233" r="0.825397" fill="#D5E1ED"/>
+<circle cx="25.0637" cy="5.68233" r="0.825397" fill="#D5E1ED"/>
+<circle cx="27.8576" cy="5.68233" r="0.825397" fill="#D5E1ED"/>
+<circle cx="16.6828" cy="9.68233" r="0.825397" fill="#D5E1ED"/>
+<circle cx="19.4768" cy="9.68233" r="0.825397" fill="#D5E1ED"/>
+<circle cx="22.2697" cy="9.68233" r="0.825397" fill="#D5E1ED"/>
+<circle cx="25.0637" cy="9.68233" r="0.825397" fill="#D5E1ED"/>
+<circle cx="27.8576" cy="9.68233" r="0.825397" fill="#D5E1ED"/>
+<circle cx="16.6828" cy="13.6823" r="0.825397" fill="#D5E1ED"/>
+<circle cx="19.4768" cy="13.6823" r="0.825397" fill="#D5E1ED"/>
+<circle cx="22.2697" cy="13.6823" r="0.825397" fill="#D5E1ED"/>
+<circle cx="25.0637" cy="13.6823" r="0.825397" fill="#D5E1ED"/>
+<circle cx="27.8576" cy="13.6823" r="0.825397" fill="#D5E1ED"/>
+<circle cx="16.6828" cy="21.6823" r="0.825397" fill="#D5E1ED"/>
+<circle cx="19.4768" cy="21.6823" r="0.825397" fill="#D5E1ED"/>
+<circle cx="22.2697" cy="21.6823" r="0.825397" fill="#D5E1ED"/>
+<circle cx="25.0637" cy="21.6823" r="0.825397" fill="#D5E1ED"/>
+<circle cx="27.8576" cy="21.6823" r="0.825397" fill="#D5E1ED"/>
+<circle cx="16.6828" cy="25.6823" r="0.825397" fill="#D5E1ED"/>
+<circle cx="19.4768" cy="25.6823" r="0.825397" fill="#D5E1ED"/>
+<circle cx="22.2697" cy="25.6823" r="0.825397" fill="#D5E1ED"/>
+<circle cx="25.0637" cy="25.6823" r="0.825397" fill="#D5E1ED"/>
+<circle cx="27.8576" cy="25.6823" r="0.825397" fill="#D5E1ED"/>
+<circle cx="16.6828" cy="17.6823" r="0.825397" fill="#D5E1ED"/>
+<circle cx="19.4768" cy="17.6823" r="0.825397" fill="#D5E1ED"/>
+<circle cx="22.2697" cy="17.6823" r="0.825397" fill="#D5E1ED"/>
+<circle cx="25.0637" cy="17.6823" r="0.825397" fill="#D5E1ED"/>
+<circle cx="27.8576" cy="17.6823" r="0.825397" fill="#D5E1ED"/>
+<circle cx="16.6828" cy="29.6823" r="0.825397" fill="#D5E1ED"/>
+<circle cx="19.4768" cy="29.6823" r="0.825397" fill="#D5E1ED"/>
+<circle cx="22.2697" cy="29.6823" r="0.825397" fill="#D5E1ED"/>
+<circle cx="25.0637" cy="29.6823" r="0.825397" fill="#D5E1ED"/>
+<circle cx="27.8576" cy="29.6823" r="0.825397" fill="#D5E1ED"/>
+<path d="M23.2857 16.2856L21 19.1428M21 16.2856L23.2857 19.1428" stroke="#5880F1" stroke-width="1.14286" stroke-linecap="round" stroke-linejoin="bevel"/>
+<path d="M18.1431 8.28564L15.8574 11.1428M15.8574 8.28564L18.1431 11.1428" stroke="#5880F1" stroke-width="1.14286" stroke-linecap="round" stroke-linejoin="bevel"/>
+</g>
+<defs>
+<filter id="filter0_d_4751_25834" x="0.428153" y="0.857143" width="32.8068" height="36.5714" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="1.14286"/>
+<feGaussianBlur stdDeviation="1.14286"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.074375 0 0 0 0 0.207589 0 0 0 0 0.330555 0 0 0 0.07 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_4751_25834"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_4751_25834" result="shape"/>
+</filter>
+</defs>
+</svg>

@@ -1,0 +1,32 @@
+<svg width="144" height="88" viewBox="0 0 144 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="1" y="0.5" width="142" height="87" rx="5.36667" fill="white"/>
+<rect x="1" y="0.5" width="142" height="87" rx="5.36667" stroke="#5880F1"/>
+<!-- Title -->
+<rect x="12" y="8" width="120" height="8" rx="2.93333" fill="#B5C8FF"/>
+<!-- Card 1 -->
+<rect x="12" y="24" width="58" height="52" rx="2.93333" fill="#B5C8FF"/>
+<!-- Card 1 Image -->
+<rect x="16" y="28" width="50" height="22" rx="2" fill="white"/>
+<circle cx="22" cy="34" r="2.5" fill="#B5C8FF"/>
+<path d="M46 46C47 40 51 30 56 43C61 56 51 53 46 46Z" fill="#B5C8FF"/>
+<path d="M22 50C24 45 30 37 38 47C46 57 32 54 22 50Z" fill="#B5C8FF"/>
+<!-- Card 1 Title -->
+<rect x="16" y="54" width="50" height="4" rx="2" fill="white"/>
+<!-- Card 1 Text -->
+<rect x="16" y="60" width="42" height="2.5" rx="1.25" fill="white"/>
+<rect x="16" y="64" width="50" height="2.5" rx="1.25" fill="white"/>
+<rect x="16" y="68" width="36" height="2.5" rx="1.25" fill="white"/>
+<!-- Card 2 -->
+<rect x="74" y="24" width="58" height="52" rx="2.93333" fill="#B5C8FF"/>
+<!-- Card 2 Image -->
+<rect x="78" y="28" width="50" height="22" rx="2" fill="white"/>
+<circle cx="84" cy="34" r="2.5" fill="#B5C8FF"/>
+<path d="M108 46C109 40 113 30 118 43C123 56 113 53 108 46Z" fill="#B5C8FF"/>
+<path d="M84 50C86 45 92 37 100 47C108 57 94 54 84 50Z" fill="#B5C8FF"/>
+<!-- Card 2 Title -->
+<rect x="78" y="54" width="50" height="4" rx="2" fill="white"/>
+<!-- Card 2 Text -->
+<rect x="78" y="60" width="42" height="2.5" rx="1.25" fill="white"/>
+<rect x="78" y="64" width="50" height="2.5" rx="1.25" fill="white"/>
+<rect x="78" y="68" width="36" height="2.5" rx="1.25" fill="white"/>
+</svg>

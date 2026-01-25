@@ -1,0 +1,25 @@
+<svg width="144" height="88" viewBox="0 0 144 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="1" y="0.5" width="142" height="87" rx="5.36667" fill="white"/>
+<rect x="1" y="0.5" width="142" height="87" rx="5.36667" stroke="#5880F1"/>
+<!-- Large title on the left -->
+<rect x="12" y="16" width="52" height="56" rx="2.93333" fill="#B5C8FF"/>
+<rect x="18" y="22" width="40" height="8" rx="2" fill="white"/>
+<rect x="18" y="34" width="36" height="6" rx="2" fill="white"/>
+<rect x="18" y="44" width="40" height="6" rx="2" fill="white"/>
+<rect x="18" y="54" width="32" height="6" rx="2" fill="white"/>
+<!-- Section 1 -->
+<rect x="70" y="16" width="62" height="4" rx="1.5" fill="#B5C8FF"/>
+<rect x="70" y="22" width="54" height="2.5" rx="1.25" fill="#B5C8FF"/>
+<rect x="70" y="26" width="62" height="2.5" rx="1.25" fill="#B5C8FF"/>
+<rect x="70" y="30" width="48" height="2.5" rx="1.25" fill="#B5C8FF"/>
+<!-- Section 2 -->
+<rect x="70" y="38" width="62" height="4" rx="1.5" fill="#B5C8FF"/>
+<rect x="70" y="44" width="54" height="2.5" rx="1.25" fill="#B5C8FF"/>
+<rect x="70" y="48" width="62" height="2.5" rx="1.25" fill="#B5C8FF"/>
+<rect x="70" y="52" width="48" height="2.5" rx="1.25" fill="#B5C8FF"/>
+<!-- Section 3 -->
+<rect x="70" y="60" width="62" height="4" rx="1.5" fill="#B5C8FF"/>
+<rect x="70" y="66" width="54" height="2.5" rx="1.25" fill="#B5C8FF"/>
+<rect x="70" y="70" width="62" height="2.5" rx="1.25" fill="#B5C8FF"/>
+<rect x="70" y="74" width="48" height="2.5" rx="1.25" fill="#B5C8FF"/>
+</svg>
