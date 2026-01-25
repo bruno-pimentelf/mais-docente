@@ -1,6 +1,6 @@
 'use client';
 
-import { Undo2, Redo2 } from 'lucide-react';
+import { Undo2, Redo2, Palette } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { useSlidePresentationEditorStore } from '@/zustand/useSlidePresentationEditorStore';
 import { useSlideEditorLayoutStore } from '@/zustand/useSlideEditorLayoutStore';
@@ -23,6 +23,8 @@ const SubHeader = ({
   const isMobile = useMediaQuery('(max-width: 767px)');
   const isPresentationMode = useSlideEditorLayoutStore((s) => s.isPresenting);
   const setSubHeaderHeight = useSlideEditorLayoutStore((s) => s.setSubHeaderHeight);
+  const setSlideSidebar = useSlideEditorLayoutStore((s) => s.setSlideSidebar);
+  const openSidebar = useSlideEditorLayoutStore((s) => s.openSidebar);
 
   const { undo, redo, pastStates, futureStates } =
     useSlidePresentationEditorStore.temporal.getState();
@@ -73,6 +75,15 @@ const SubHeader = ({
         title="Refazer"
       >
         <Redo2 className="size-4" />
+      </button>
+      <div className="mx-2 h-6 w-px bg-gray-200" />
+      <button
+        type="button"
+        onClick={() => setSlideSidebar(openSidebar === 'theme' ? null : 'theme')}
+        className={`flex size-8 items-center justify-center rounded transition-colors hover:bg-gray-100 ${openSidebar === 'theme' ? 'bg-blue-100 text-blue-600' : ''}`}
+        title="Temas"
+      >
+        <Palette className="size-4" />
       </button>
       <div className="mx-2 h-6 w-px bg-gray-200" />
       <TopbarElementsMenu

@@ -3,6 +3,7 @@ import Content from './components/Content';
 import Header from './components/Header';
 import LeftSidebar from './components/LeftSidebar';
 import SlideTypeSelector from './components/SlideTypeSelector';
+import ThemeSidebar from './components/ThemeSidebar';
 import { useSlidePresentationEditorStore } from '@/zustand/useSlidePresentationEditorStore';
 import { useSlideEditorLayoutStore } from '@/zustand/useSlideEditorLayoutStore';
 
@@ -26,6 +27,7 @@ export default function SlidePresentationEditor({
   const isCreateWithAiOpen = useSlideEditorLayoutStore(
     (state) => state.createWithAi.isOpen
   );
+  const openSidebar = useSlideEditorLayoutStore((state) => state.openSidebar);
 
   useEffect(() => {
     if (slides.length === 0) {
@@ -39,6 +41,7 @@ export default function SlidePresentationEditor({
       <div className="flex flex-row">
         {showPreviewSidebar && <LeftSidebar hideHeader={hideHeader} isViewOnly={isViewOnly} />}
         <Content hideHeader={hideHeader} showPreviewSidebar={showPreviewSidebar} isViewOnly={isViewOnly} />
+        {openSidebar === 'theme' && <ThemeSidebar />}
       </div>
       {isCreateWithAiOpen && <SlideTypeSelector />}
     </div>
