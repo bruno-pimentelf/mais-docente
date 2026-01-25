@@ -1,10 +1,14 @@
 import { useState } from 'react';
 import { motion } from 'motion/react';
 import useMediaQuery from '../../hooks/useMediaQuery';
-import { useSlidePresentationEditorStore } from '@/zustand/useSlidePresentationEditorStore';
+import {
+  detectCurrentTheme,
+  useSlidePresentationEditorStore,
+} from '@/zustand/useSlidePresentationEditorStore';
 import { useSlideEditorLayoutStore } from '@/zustand/useSlideEditorLayoutStore';
-import { useShallow } from 'zustand/react/shallow';
 import { Button } from '@/components/ui/button';
+import { createSlideFromTemplate } from '@/components/slidePresentationEditor/utils/createSlideFromTemplate';
+import type { SlideTheme } from '@/components/slidePresentationEditor/utils/types/slide-theme.types';
 
 type TTemplateGroupId =
   | 'text'
@@ -203,15 +207,34 @@ export default function SlideTypeSelector() {
 
   const [selectedSlideType, setSelectedSlideType] =
     useState<TTemplateGroupId>('text');
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const handleCreateBlankSlide = () => {
     addSlideAtPosition({ position: finalPosition });
     closeCreateWithAi();
   };
 
-  const handleSubmit = () => {
-    addSlideAtPosition({ position: finalPosition });
-    closeCreateWithAi();
+  const handleSubmit = async () => {
+    setIsGenerating(true);
+    try {
+      const state = useSlidePresentationEditorStore.getState();
+      const theme = (state.currentTheme ||
+        detectCurrentTheme(state)) as SlideTheme;
+      const logo =
+        state.logo_path ?? '/images/icons/lara-icon-talk.svg';
+      const slide = await createSlideFromTemplate(
+        selectedSlideType,
+        finalPosition,
+        theme,
+        logo
+      );
+      addSlideAtPosition({ position: finalPosition, slide });
+      closeCreateWithAi();
+    } catch (err) {
+      console.error('createSlideFromTemplate failed', err);
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   if (!isCreateWithAiOpen) return null;
@@ -284,8 +307,12 @@ export default function SlideTypeSelector() {
           </div>
         </div>
         <div className="sticky bottom-0 bg-white p-2 border-t border-ds-gray-100 z-30 rounded-b-lg">
-          <Button onClick={handleSubmit} className="w-full">
-            {t('slideTypeSelector.create')}
+          <Button
+            onClick={handleSubmit}
+            className="w-full"
+            disabled={isGenerating}
+          >
+            {isGenerating ? 'A criar...' : t('slideTypeSelector.create')}
           </Button>
         </div>
       </div>

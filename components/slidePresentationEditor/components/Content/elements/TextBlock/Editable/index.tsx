@@ -30,8 +30,10 @@ const EditableTextBlock = (props: Props) => {
     }
   }, [tb.isTransforming]);
 
+  // Só preenche ao entrar em edição; tb.text de propósito fora de deps para não sobrescrever enquanto o utilizador edita
   useEffect(() => {
     if (tb.isEditing && editRef.current) {
+      editRef.current.innerHTML = tb.text ?? '';
       editRef.current.focus();
       const r = document.createRange();
       r.selectNodeContents(editRef.current);
@@ -39,10 +41,11 @@ const EditableTextBlock = (props: Props) => {
       s?.removeAllRanges();
       s?.addRange(r);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only run when entering edit mode
   }, [tb.isEditing]);
 
   const handleBlur = () => {
-    if (editRef.current) tb.handleUpdateText(editRef.current.innerText || '');
+    if (editRef.current) tb.handleUpdateText(editRef.current.innerHTML || '');
   };
 
   const showFloatingToolbar = tb.isTransforming && !props.isViewOnly;
@@ -104,9 +107,7 @@ const EditableTextBlock = (props: Props) => {
                 width: tb.currentWidth > 0 ? tb.currentWidth + LINE_BREAK_CORRECTION : 'auto',
                 minHeight: tb.currentHeight,
               }}
-            >
-              {tb.text}
-            </div>
+            />
           ) : (
             <div
               style={{
@@ -117,9 +118,8 @@ const EditableTextBlock = (props: Props) => {
                 width: tb.currentWidth > 0 ? tb.currentWidth + LINE_BREAK_CORRECTION : 'auto',
                 minHeight: tb.currentHeight,
               }}
-            >
-              {tb.text}
-            </div>
+              dangerouslySetInnerHTML={{ __html: tb.text ?? '' }}
+            />
           )}
         </Html>
 

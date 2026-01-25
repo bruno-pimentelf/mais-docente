@@ -853,14 +853,15 @@ export const useSlidePresentationEditorStore = create<Store>()(
                 id: uuidv4(),
                 x: 0,
                 y: 0,
-                width: slide.themeSettings.width,
-                height: slide.themeSettings.height,
+                width: slide.themeSettings?.width ?? 1920,
+                height: slide.themeSettings?.height ?? 1080,
                 type: SlideElementBaseTypes.IMAGE,
                 subtype: SlideImageElementsVariants.BACKGROUND_IMAGE,
                 src,
                 options: { isVisible: true, label: 'Imagem de fundo' },
               };
-              slide.elements?.unshift(newImage);
+              if (!Array.isArray(slide.elements)) slide.elements = [];
+              slide.elements.unshift(newImage);
             } else {
               image.src = src;
             }
@@ -894,7 +895,7 @@ export const useSlidePresentationEditorStore = create<Store>()(
             devLog('addParagraphElement');
             const slide = s.slides.find((sl) => sl.id === s.selectedSlide);
             if (!slide) return;
-            const slideWidth = slide.themeSettings.width;
+            const slideWidth = slide.themeSettings?.width ?? 1920;
             const fontSize = slideWidth > 1264 ? 34 : 16;
 
             const el: SlideText = {
@@ -912,7 +913,8 @@ export const useSlidePresentationEditorStore = create<Store>()(
               lineHeight: 1.4,
               options: { isVisible: true, label: '' },
             };
-            slide.elements?.push(el);
+            if (!Array.isArray(slide.elements)) slide.elements = [];
+            slide.elements.push(el);
             useSlideEditorLayoutStore
               .getState()
               .setTransformingElementId(el.id);
@@ -924,8 +926,8 @@ export const useSlidePresentationEditorStore = create<Store>()(
             const slide = s.slides.find((sl) => sl.id === s.selectedSlide);
             if (!slide) return;
 
-            const slideW = slide.themeSettings.width;
-            const slideH = slide.themeSettings.height;
+            const slideW = slide.themeSettings?.width ?? 1920;
+            const slideH = slide.themeSettings?.height ?? 1080;
 
             let imageWidth = 0;
             let imageHeight = 0;
@@ -961,7 +963,8 @@ export const useSlidePresentationEditorStore = create<Store>()(
               x,
               y,
             };
-            slide.elements?.push(el);
+            if (!Array.isArray(slide.elements)) slide.elements = [];
+            slide.elements.push(el);
             useSlideEditorLayoutStore
               .getState()
               .setTransformingElementId(el.id);
@@ -982,8 +985,8 @@ export const useSlidePresentationEditorStore = create<Store>()(
             const slide = s.slides.find((sl) => sl.id === s.selectedSlide);
             if (!slide) return;
 
-            const slideW = slide.themeSettings.width;
-            const slideH = slide.themeSettings.height;
+            const slideW = slide.themeSettings?.width ?? 1920;
+            const slideH = slide.themeSettings?.height ?? 1080;
 
             let gifWidth = 0;
             let gifHeight = 0;
@@ -1018,7 +1021,8 @@ export const useSlidePresentationEditorStore = create<Store>()(
               x,
               y,
             };
-            slide.elements?.push(el);
+            if (!Array.isArray(slide.elements)) slide.elements = [];
+            slide.elements.push(el);
             useSlideEditorLayoutStore
               .getState()
               .setTransformingElementId(el.id);
@@ -1030,11 +1034,12 @@ export const useSlidePresentationEditorStore = create<Store>()(
             const slide = s.slides.find((sl) => sl.id === s.selectedSlide);
             if (!slide) return;
 
-            const slideW = slide.themeSettings.width;
+            const slideW = slide.themeSettings?.width ?? 1920;
+            const slideH = slide.themeSettings?.height ?? 1080;
             const videoWidth = slideW * 0.33;
             const videoHeight = videoWidth * (9 / 16);
-            const x = (slide.themeSettings.width - videoWidth) / 2;
-            const y = (slide.themeSettings.height - videoHeight) / 2;
+            const x = (slideW - videoWidth) / 2;
+            const y = (slideH - videoHeight) / 2;
 
             const el: SlideVideo = {
               id: v4(),
@@ -1047,7 +1052,8 @@ export const useSlidePresentationEditorStore = create<Store>()(
               x,
               y,
             };
-            slide.elements?.push(el);
+            if (!Array.isArray(slide.elements)) slide.elements = [];
+            slide.elements.push(el);
             useSlideEditorLayoutStore
               .getState()
               .setTransformingElementId(el.id);
@@ -1073,7 +1079,8 @@ export const useSlidePresentationEditorStore = create<Store>()(
               fillColor: '#80A1FF',
               options: { isVisible: true, label: type },
             };
-            slide.elements?.push(shape);
+            if (!Array.isArray(slide.elements)) slide.elements = [];
+            slide.elements.push(shape);
             useSlideEditorLayoutStore
               .getState()
               .setTransformingElementId(shape.id);
@@ -1116,8 +1123,8 @@ export const useSlidePresentationEditorStore = create<Store>()(
                     )
                 );
 
-            const slideW = slide.themeSettings.width;
-            const slideH = slide.themeSettings.height;
+            const slideW = slide.themeSettings?.width ?? 1920;
+            const slideH = slide.themeSettings?.height ?? 1080;
             const tableWidth = slideW * 0.65;
             const tableHeight = slideH * 0.5;
 
@@ -1162,7 +1169,8 @@ export const useSlidePresentationEditorStore = create<Store>()(
                 color: currentTheme.table.textColor,
               },
             };
-            slide.elements?.push(el);
+            if (!Array.isArray(slide.elements)) slide.elements = [];
+            slide.elements.push(el);
             useSlideEditorLayoutStore
               .getState()
               .setTransformingElementId(el.id);
@@ -1180,7 +1188,8 @@ export const useSlidePresentationEditorStore = create<Store>()(
               | undefined;
 
             const id = providedId || uuidv4();
-            slide.elements?.unshift({
+            if (!Array.isArray(slide.elements)) slide.elements = [];
+            slide.elements.unshift({
               ...element,
               id,
               ...(pastePosition && { x: pastePosition.x, y: pastePosition.y }),

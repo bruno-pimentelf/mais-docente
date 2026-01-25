@@ -28,15 +28,18 @@ const useSlideBackgroundImage = ({
 
   if (!slideBackgroundImage) return { x: 0, y: 0, width: 0, height: 0 };
 
+  const scale = (typeof slideScalingDelta === 'number' && Number.isFinite(slideScalingDelta)) ? slideScalingDelta : 1;
+  const n = (v: unknown) => (typeof v === 'number' && Number.isFinite(v) ? v : Number(v) || 0);
+
   return {
-    x: slideBackgroundImage.x * slideScalingDelta,
-    y: slideBackgroundImage.y * slideScalingDelta,
-    width: slideBackgroundImage.width * slideScalingDelta,
-    height: slideBackgroundImage.height * slideScalingDelta,
-    originalX: slideBackgroundImage.x,
-    originalY: slideBackgroundImage.y,
-    originalWidth: slideBackgroundImage.width,
-    originalHeight: slideBackgroundImage.height,
+    x: n(slideBackgroundImage.x) * scale,
+    y: n(slideBackgroundImage.y) * scale,
+    width: n(slideBackgroundImage.width) * scale,
+    height: n(slideBackgroundImage.height) * scale,
+    originalX: n(slideBackgroundImage.x),
+    originalY: n(slideBackgroundImage.y),
+    originalWidth: n(slideBackgroundImage.width),
+    originalHeight: n(slideBackgroundImage.height),
   };
 };
 

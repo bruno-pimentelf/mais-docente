@@ -87,22 +87,25 @@ const useSlideImage = ({
       slideDimensions: { width: 0, height: 0 },
     };
 
+  const scale = (typeof scalingDelta === 'number' && Number.isFinite(scalingDelta)) ? scalingDelta : 1;
+  const n = (v: unknown) => (typeof v === 'number' && Number.isFinite(v) ? v : Number(v) || 0);
+
   return {
-    x: slideImage.x * scalingDelta,
-    y: slideImage.y * scalingDelta,
-    rotation: slideImage.rotation ?? 0,
-    width: slideImage.width * scalingDelta,
-    height: slideImage.height * scalingDelta,
+    x: n(slideImage.x) * scale,
+    y: n(slideImage.y) * scale,
+    rotation: Number(slideImage.rotation) || 0,
+    width: n(slideImage.width) * scale,
+    height: n(slideImage.height) * scale,
     borderRadius: slideImage.borderRadius,
     isUploading: (slideImage as { isUploading?: boolean }).isUploading || false,
-    originalX: slideImage.x,
-    originalY: slideImage.y,
-    originalWidth: slideImage.width,
-    originalHeight: slideImage.height,
+    originalX: n(slideImage.x),
+    originalY: n(slideImage.y),
+    originalWidth: n(slideImage.width),
+    originalHeight: n(slideImage.height),
     originalBorderRadius: slideImage.borderRadius,
     slideDimensions: {
-      width: (themeSettings?.width ?? 0) * scalingDelta,
-      height: (themeSettings?.height ?? 0) * scalingDelta,
+      width: n(themeSettings?.width) * scale,
+      height: n(themeSettings?.height) * scale,
     },
   };
 };
@@ -433,7 +436,7 @@ const SlideImage = ({
         )}
         {isEditable && typeof src === 'string' && src.includes('/images/interactive-classes/slide-presentation-editor/') && (
           <Html>
-            <div className="absolute select-none -translate-x-1/2 -translate-y-1/2 flex whitespace-nowrap" style={{ left: `${currentWidth / 2}px`, top: `${currentHeight / 2}px` }}>
+            <div className="absolute select-none -translate-x-1/2 -translate-y-1/2 flex whitespace-nowrap" style={{ left: `${(Number(currentWidth) || 0) / 2}px`, top: `${(Number(currentHeight) || 0) / 2}px` }}>
               <Button
                 variant="secondary"
                 size="sm"
