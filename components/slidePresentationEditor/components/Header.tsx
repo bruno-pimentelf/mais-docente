@@ -35,7 +35,7 @@ function Title() {
           }
         }}
         autoFocus
-        className="max-w-[320px] border-b border-blue-500 bg-transparent font-semibold text-ds-gray-900 outline-none"
+        className="max-w-[320px] border-b border-[#3b82f6] bg-transparent font-semibold text-[#111827] outline-none"
       />
     );
   }
@@ -43,7 +43,7 @@ function Title() {
     <button
       type="button"
       onClick={() => setEditing(true)}
-      className="max-w-[320px] truncate text-left font-semibold text-ds-gray-900 hover:underline"
+        className="max-w-[320px] truncate text-left font-semibold text-[#111827] hover:underline"
     >
       {title || 'Apresentação'}
     </button>
@@ -73,14 +73,15 @@ export default function Header({ onBack, hideHeader = false }: Props) {
   return (
     <div
       ref={ref}
-      className="flex items-center gap-3 border-b border-cinza-100 bg-white px-4 py-2"
+      className="flex items-center gap-3 border-b border-[#f3f4f6] bg-[#ffffff] px-4 py-2"
+      style={{ colorScheme: 'light' }}
     >
       {onBack && (
         <Button
           variant="ghost"
           size="icon"
           onClick={onBack}
-          className="shrink-0"
+          className="shrink-0 text-[#111827] hover:!bg-[#f3f4f6]"
           aria-label="Voltar"
         >
           <ArrowLeftIcon className="size-5" />

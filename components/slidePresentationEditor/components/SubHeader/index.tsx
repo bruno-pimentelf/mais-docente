@@ -56,13 +56,14 @@ const SubHeader = ({
   return (
     <div
       ref={subHeaderRef}
-      className={`flex h-[52px] w-full flex-row items-center gap-2 border-b border-gray-100 bg-white px-4 ${hideHeader ? 'md:invisible' : ''}`}
+      className={`flex h-[52px] w-full flex-row items-center gap-2 border-b border-[#f3f4f6] bg-[#ffffff] px-4 ${hideHeader ? 'md:invisible' : ''}`}
+      style={{ colorScheme: 'light' }}
     >
       <button
         type="button"
         onClick={() => undo()}
         disabled={!isUndoEnabled}
-        className="flex size-8 items-center justify-center rounded transition-colors hover:bg-gray-100 disabled:opacity-50"
+        className="flex size-8 items-center justify-center rounded transition-colors hover:bg-[#f3f4f6] disabled:opacity-50 text-[#111827]"
         title="Desfazer"
       >
         <Undo2 className="size-4" />
@@ -71,21 +72,21 @@ const SubHeader = ({
         type="button"
         onClick={() => redo()}
         disabled={!isRedoEnabled}
-        className="flex size-8 items-center justify-center rounded transition-colors hover:bg-gray-100 disabled:opacity-50"
+        className="flex size-8 items-center justify-center rounded transition-colors hover:bg-[#f3f4f6] disabled:opacity-50 text-[#111827]"
         title="Refazer"
       >
         <Redo2 className="size-4" />
       </button>
-      <div className="mx-2 h-6 w-px bg-gray-200" />
+      <div className="mx-2 h-6 w-px bg-[#e5e7eb]" />
       <button
         type="button"
         onClick={() => setSlideSidebar(openSidebar === 'theme' ? null : 'theme')}
-        className={`flex size-8 items-center justify-center rounded transition-colors hover:bg-gray-100 ${openSidebar === 'theme' ? 'bg-blue-100 text-blue-600' : ''}`}
+        className={`flex size-8 items-center justify-center rounded transition-colors hover:bg-[#f3f4f6] ${openSidebar === 'theme' ? 'bg-[#dbeafe] text-[#2563eb]' : 'text-[#111827]'}`}
         title="Temas"
       >
         <Palette className="size-4" />
       </button>
-      <div className="mx-2 h-6 w-px bg-gray-200" />
+      <div className="mx-2 h-6 w-px bg-[#e5e7eb]" />
       <TopbarElementsMenu
         isPreview={isPreview}
         isViewOnly={isViewOnly}

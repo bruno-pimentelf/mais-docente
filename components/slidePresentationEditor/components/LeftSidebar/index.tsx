@@ -29,7 +29,7 @@ function DropZone({
       onDragOver={onDragOver}
       onDrop={onDrop}
       className={`my-1 h-2 w-full rounded-sm transition-colors ${
-        isActive ? 'bg-azul/60' : 'bg-transparent'
+        isActive ? 'bg-[#3b82f6]/60' : 'bg-transparent'
       }`}
       aria-hidden
     />
@@ -378,14 +378,14 @@ function LeftSidebar({
 
   return (
     <aside
-      className="hidden min-w-72 max-w-72 flex-col overflow-y-auto border-r border-cinza-100 bg-white md:flex"
+      className="hidden min-w-72 max-w-72 flex-col overflow-y-auto border-r border-[#f3f4f6] bg-[#ffffff] md:flex"
       style={{
         height: `calc(100vh - ${headerBarHeight}px - 58px)`,
       }}
     >
       {!isGenerating && !isViewOnly && !hideHeader && (
         <div
-          className="sticky top-0 z-10 min-h-[65px] bg-white p-3"
+          className="sticky top-0 z-10 min-h-[65px] bg-[#ffffff] p-3"
           id="new-slide-button"
         >
           <AnimatePresence>
@@ -464,7 +464,7 @@ function LeftSidebar({
               <li
                 data-index={virtualItem.index}
                 data-index-virtual={virtualItem.index}
-                className="slide group relative rounded-xl outline-none focus:ring-2 focus:ring-azul cursor-grab active:cursor-grabbing"
+                className="slide group relative rounded-xl outline-none focus:ring-2 focus:ring-[#3b82f6] cursor-grab active:cursor-grabbing"
                 role="listitem"
                 aria-grabbed="false"
                 aria-dropeffect="move"

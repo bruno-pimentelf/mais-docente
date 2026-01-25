@@ -42,7 +42,10 @@ const Content = memo(function Content({
   }, [selectedSlide?.themeSettings, setSlideScalingDelta]);
 
   return (
-    <main className="flex flex-1 flex-col overflow-hidden bg-cinza-50">
+    <main
+      className="flex flex-1 flex-col overflow-hidden bg-[#f9fafb]"
+      style={{ colorScheme: 'light' }}
+    >
       <SubHeader isPreview={false} isViewOnly={isViewOnly} hideHeader={hideHeader} />
 
       <div
@@ -60,7 +63,7 @@ const Content = memo(function Content({
             />
           </div>
         ) : (
-          <div className="text-ds-gray-500 font-quicksand text-lg">
+          <div className="text-[#6b7280] font-quicksand text-lg">
             Nenhum slide selecionado
           </div>
         )}

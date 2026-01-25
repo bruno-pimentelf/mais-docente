@@ -92,7 +92,7 @@ export default function TopbarElementsMenu({
   if (isPreview || isViewOnly) return null;
 
   return (
-    <div ref={ref} className="flex items-center gap-1">
+    <div ref={ref} className="flex items-center gap-1 text-[#111827]">
       <input
         ref={imageInputRef}
         type="file"
@@ -111,7 +111,7 @@ export default function TopbarElementsMenu({
       <button
         type="button"
         onClick={addText}
-        className="flex size-8 items-center justify-center rounded transition-colors hover:bg-gray-100"
+        className="flex size-8 items-center justify-center rounded transition-colors hover:bg-[#f3f4f6]"
         title="Adicionar texto"
       >
         <Type className="size-4" />
@@ -121,17 +121,17 @@ export default function TopbarElementsMenu({
         <button
           type="button"
           onClick={() => setShapeOpen((o) => !o)}
-          className="flex size-8 items-center justify-center rounded transition-colors hover:bg-gray-100"
+          className="flex size-8 items-center justify-center rounded transition-colors hover:bg-[#f3f4f6]"
           title="Adicionar forma"
         >
           <RectangleHorizontal className="size-4" />
         </button>
         {shapeOpen && (
-          <div className="absolute top-full left-0 z-20 mt-1 flex rounded border border-gray-200 bg-white py-1 shadow">
+          <div className="absolute top-full left-0 z-20 mt-1 flex rounded border border-[#e5e7eb] bg-[#ffffff] py-1 shadow">
             <button
               type="button"
               onClick={() => addShape(SlideShapeElementsVariants.RECTANGLE)}
-              className="flex px-3 py-1 hover:bg-gray-100"
+              className="flex px-3 py-1 hover:bg-[#f3f4f6]"
               title="Retângulo"
             >
               <RectangleHorizontal className="size-4" />
@@ -139,7 +139,7 @@ export default function TopbarElementsMenu({
             <button
               type="button"
               onClick={() => addShape(SlideShapeElementsVariants.CIRCLE)}
-              className="flex px-3 py-1 hover:bg-gray-100"
+              className="flex px-3 py-1 hover:bg-[#f3f4f6]"
               title="Círculo"
             >
               <Square className="size-4" />
@@ -147,7 +147,7 @@ export default function TopbarElementsMenu({
             <button
               type="button"
               onClick={() => addShape(SlideShapeElementsVariants.LINE)}
-              className="flex px-3 py-1 hover:bg-gray-100"
+              className="flex px-3 py-1 hover:bg-[#f3f4f6]"
               title="Linha"
             >
               <span className="text-xs font-bold">—</span>
@@ -159,7 +159,7 @@ export default function TopbarElementsMenu({
       <button
         type="button"
         onClick={() => imageInputRef.current?.click()}
-        className="flex size-8 items-center justify-center rounded transition-colors hover:bg-gray-100"
+        className="flex size-8 items-center justify-center rounded transition-colors hover:bg-[#f3f4f6]"
         title="Adicionar imagem"
       >
         <ImageIcon className="size-4" />
@@ -168,7 +168,7 @@ export default function TopbarElementsMenu({
       <button
         type="button"
         onClick={addTable}
-        className="flex size-8 items-center justify-center rounded transition-colors hover:bg-gray-100"
+        className="flex size-8 items-center justify-center rounded transition-colors hover:bg-[#f3f4f6]"
         title="Adicionar tabela"
       >
         <TableIcon className="size-4" />
@@ -177,7 +177,7 @@ export default function TopbarElementsMenu({
       <button
         type="button"
         onClick={() => videoInputRef.current?.click()}
-        className="flex size-8 items-center justify-center rounded transition-colors hover:bg-gray-100"
+        className="flex size-8 items-center justify-center rounded transition-colors hover:bg-[#f3f4f6]"
         title="Adicionar vídeo"
       >
         <Video className="size-4" />

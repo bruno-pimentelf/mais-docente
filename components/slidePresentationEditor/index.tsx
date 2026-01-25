@@ -36,7 +36,10 @@ export default function SlidePresentationEditor({
   }, [slides.length, addSlideAtPosition]);
 
   return (
-    <div className="relative flex flex-1 flex-col items-stretch justify-stretch">
+    <div
+      className="relative flex flex-1 flex-col items-stretch justify-stretch"
+      style={{ colorScheme: 'light' }}
+    >
       <Header hideHeader={hideHeader} onBack={onBack} />
       <div className="flex flex-row">
         {showPreviewSidebar && <LeftSidebar hideHeader={hideHeader} isViewOnly={isViewOnly} />}
