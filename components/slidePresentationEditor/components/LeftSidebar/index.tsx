@@ -1,4 +1,3 @@
-import { AnimatePresence, motion } from 'motion/react';
 import {
   Fragment,
   memo,
@@ -8,12 +7,17 @@ import {
   useState,
 } from 'react';
 import type React from 'react';
+import { Plus } from 'lucide-react';
 import { SlidePreview } from './SlidePreview';
 import { useSlidePresentationEditorStore } from '@/zustand/useSlidePresentationEditorStore';
-import AddSlideButton from '../AddSlideButton';
 import { useShallow } from 'zustand/react/shallow';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useSlideEditorLayoutStore } from '@/zustand/useSlideEditorLayoutStore';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 function DropZone({
   isActive,
@@ -28,8 +32,8 @@ function DropZone({
     <div
       onDragOver={onDragOver}
       onDrop={onDrop}
-      className={`my-1 h-2 w-full rounded-sm transition-colors ${
-        isActive ? 'bg-[#3b82f6]/60' : 'bg-transparent'
+      className={`my-1 h-1 w-full rounded-full transition-colors ${
+        isActive ? 'bg-blue-500' : 'bg-transparent'
       }`}
       aria-hidden
     />
@@ -38,10 +42,8 @@ function DropZone({
 
 function LeftSidebar({
   isViewOnly,
-  hideHeader,
 }: {
   isViewOnly?: boolean;
-  hideHeader?: boolean;
 }) {
   const reorderSlides = useSlidePresentationEditorStore(
     (state) => state.reorderSlides
@@ -52,9 +54,8 @@ function LeftSidebar({
   const slideIds = useSlidePresentationEditorStore(
     useShallow((state) => state.slides.map((slide) => slide.id))
   );
-
-  const headerBarHeight = useSlideEditorLayoutStore(
-    (state) => state.headerBarHeight
+  const addSlideAtPosition = useSlidePresentationEditorStore(
+    (state) => state.addSlideAtPosition
   );
 
   const isGenerating = useSlideEditorLayoutStore((state) => state.isGenerating);
@@ -376,40 +377,32 @@ function LeftSidebar({
     [dragState.isDragging, handleKeyMove]
   );
 
+  const handleAddSlide = () => {
+    addSlideAtPosition({ position: numSlides });
+  };
+
   return (
     <aside
-      className="hidden min-w-72 max-w-72 flex-col overflow-y-auto border-r border-[#f3f4f6] bg-[#ffffff] md:flex"
-      style={{
-        height: `calc(100vh - ${headerBarHeight}px - 58px)`,
-      }}
+      className="hidden md:flex flex-col w-64 min-w-64 max-w-64 h-screen bg-gray-50/50 backdrop-blur-sm"
     >
-      {!isGenerating && !isViewOnly && !hideHeader && (
-        <div
-          className="sticky top-0 z-10 min-h-[65px] bg-[#ffffff] p-3"
-          id="new-slide-button"
-        >
-          <AnimatePresence>
-            <motion.div
-              initial={{ opacity: 0, y: -10, height: 0 }}
-              animate={{ opacity: 1, y: 0, height: 'auto' }}
-              exit={{ opacity: 0, y: -10, height: 0 }}
-              transition={{ duration: 0.25, ease: 'easeInOut' }}
-            >
-              <AddSlideButton />
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      )}
+      {/* Header minimalista */}
+      <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100">
+        <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+          Slides
+        </span>
+        <span className="text-xs text-gray-400">{numSlides}</span>
+      </div>
 
+      {/* Lista de slides com scroll */}
       <ul
         ref={listRef}
-        className={`slides relative flex flex-col gap-0 px-4 pb-4 ${isGenerating || isViewOnly ? 'mt-4' : ''}`}
+        className="slides relative flex-1 flex flex-col gap-0 px-3 py-3 overflow-y-auto"
         role="list"
         onDragOver={onDragOver}
         onDrop={onDrop}
         style={{
-          height: '100%',
-          overflow: 'auto',
+          scrollbarWidth: 'thin',
+          scrollbarColor: '#d1d5db transparent',
         }}
       >
         <div
@@ -602,6 +595,30 @@ function LeftSidebar({
           ))}
         </div>
       </ul>
+
+      {/* Botao flutuante para adicionar slide */}
+      {!isGenerating && !isViewOnly && (
+        <div className="p-3 border-t border-gray-100">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                type="button"
+                onClick={handleAddSlide}
+                className="flex w-full items-center justify-center gap-2 py-2.5 rounded-xl
+                  bg-white border border-gray-200 text-gray-600
+                  hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800
+                  transition-all duration-200 shadow-sm hover:shadow"
+              >
+                <Plus className="size-4" />
+                <span className="text-sm font-medium">Novo Slide</span>
+              </button>
+            </TooltipTrigger>
+            <TooltipContent side="right" sideOffset={8}>
+              Adicionar novo slide
+            </TooltipContent>
+          </Tooltip>
+        </div>
+      )}
     </aside>
   );
 }

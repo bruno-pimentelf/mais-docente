@@ -112,24 +112,29 @@ export const SlidePreview = memo(function SlidePreviewMemo({
           ref={ref}
           tabIndex={0}
           onKeyDown={handleKeyDown}
-          className="relative w-full cursor-pointer overflow-hidden rounded-[12px] border-2 border-gray-300 p-1 transition-all duration-200"
+          className="group relative w-full cursor-pointer overflow-hidden rounded-xl ring-1 ring-gray-200 hover:ring-gray-300 hover:shadow-md transition-all duration-200"
           style={{
             height: scaledHeight || 120,
           }}
         >
-          <div className="relative size-full overflow-hidden rounded-[8px] bg-gray-100">
+          {/* Numero do slide */}
+          <div className="absolute top-2 left-2 z-10 flex items-center justify-center size-6 rounded-full text-xs font-medium bg-black/50 text-white backdrop-blur-sm">
+            {slideNumber}
+          </div>
+
+          <div className="relative size-full overflow-hidden bg-gray-50">
             <div className="animate-shimmer absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent bg-[length:200%_100%]" />
-            <div className="relative flex h-full flex-col justify-between p-4">
-              <div className="absolute left-2 top-2 rounded bg-gray-300 px-2 py-1 text-xs font-medium text-gray-600">
-                {slideNumber}
-              </div>
-              <div className="mt-6 space-y-2">
-                <div className="h-3 w-3/4 rounded bg-gray-300" />
-                <div className="h-3 w-1/2 rounded bg-gray-300" />
-                <div className="h-3 w-2/3 rounded bg-gray-300" />
+            <div className="relative flex h-full flex-col justify-center items-center p-4">
+              <div className="space-y-2 w-full px-4">
+                <div className="h-2 w-3/4 rounded-full bg-gray-200" />
+                <div className="h-2 w-1/2 rounded-full bg-gray-200" />
+                <div className="h-2 w-2/3 rounded-full bg-gray-200" />
               </div>
             </div>
           </div>
+
+          {/* Overlay no hover */}
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-200" />
         </div>
         {isContextMenuOpen && <SlideOptionsContextMenu />}
       </>
@@ -151,7 +156,14 @@ export const SlidePreview = memo(function SlidePreviewMemo({
         }
         onMouseDownCapture={undefined}
         ref={ref}
-        className={`relative w-full ${isSlideSelected ? 'border-2 border-blue-600 shadow-md' : 'border-2 border-gray-300'} cursor-pointer overflow-hidden rounded-[12px] p-1 transition-all duration-200`}
+        className={`
+          group relative w-full overflow-hidden rounded-xl
+          transition-all duration-200 ease-out
+          ${isSlideSelected
+            ? 'ring-2 ring-blue-500 ring-offset-2 shadow-lg scale-[1.02]'
+            : 'ring-1 ring-gray-200 hover:ring-gray-300 hover:shadow-md'
+          }
+        `}
         tabIndex={0}
         onKeyDown={handleKeyDown}
         style={{
@@ -162,7 +174,22 @@ export const SlidePreview = memo(function SlidePreviewMemo({
           cursor: 'grab',
         }}
       >
-        <div className="relative size-full overflow-hidden rounded-[8px]">
+        {/* Numero do slide - minimalista */}
+        <div className={`
+          absolute top-2 left-2 z-10
+          flex items-center justify-center
+          size-6 rounded-full text-xs font-medium
+          transition-all duration-200
+          ${isSlideSelected
+            ? 'bg-blue-500 text-white'
+            : 'bg-black/50 text-white backdrop-blur-sm'
+          }
+        `}>
+          {slideNumber}
+        </div>
+
+        {/* Preview do slide */}
+        <div className="relative size-full overflow-hidden bg-white">
           {scale && (
             <PureSlideRenderer
               slide={slide}
@@ -171,6 +198,12 @@ export const SlidePreview = memo(function SlidePreviewMemo({
             />
           )}
         </div>
+
+        {/* Overlay no hover */}
+        <div className={`
+          absolute inset-0 bg-black/0 transition-colors duration-200
+          ${!isSlideSelected ? 'group-hover:bg-black/5' : ''}
+        `} />
       </div>
       {isContextMenuOpen && <SlideOptionsContextMenu />}
     </>

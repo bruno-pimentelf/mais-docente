@@ -1,22 +1,19 @@
 import { useEffect } from 'react';
 import Content from './components/Content';
-import Header from './components/Header';
 import LeftSidebar from './components/LeftSidebar';
 import SlideTypeSelector from './components/SlideTypeSelector';
 import ThemeSidebar from './components/ThemeSidebar';
+import FloatingToolbar from './components/FloatingToolbar';
 import { useSlidePresentationEditorStore } from '@/zustand/useSlidePresentationEditorStore';
 import { useSlideEditorLayoutStore } from '@/zustand/useSlideEditorLayoutStore';
 
 type Props = {
-  onBack: () => void;
-  hideHeader?: boolean;
+  onBack?: () => void;
   isViewOnly?: boolean;
   showPreviewSidebar?: boolean;
 };
 
 export default function SlidePresentationEditor({
-  onBack,
-  hideHeader = false,
   isViewOnly = false,
   showPreviewSidebar = true,
 }: Props) {
@@ -37,15 +34,22 @@ export default function SlidePresentationEditor({
 
   return (
     <div
-      className="relative flex flex-1 flex-col items-stretch justify-stretch"
+      className="relative flex h-screen w-screen overflow-hidden bg-gradient-to-br from-gray-100 via-gray-50 to-white"
       style={{ colorScheme: 'light' }}
     >
-      <Header hideHeader={hideHeader} onBack={onBack} />
-      <div className="flex flex-row">
-        {showPreviewSidebar && <LeftSidebar hideHeader={hideHeader} isViewOnly={isViewOnly} />}
-        <Content hideHeader={hideHeader} showPreviewSidebar={showPreviewSidebar} isViewOnly={isViewOnly} />
-        {openSidebar === 'theme' && <ThemeSidebar />}
-      </div>
+      {/* Sidebar de slides */}
+      {showPreviewSidebar && <LeftSidebar isViewOnly={isViewOnly} />}
+
+      {/* Area principal do slide */}
+      <Content isViewOnly={isViewOnly} />
+
+      {/* Sidebar de temas (direita - fixed) */}
+      {openSidebar === 'theme' && <ThemeSidebar />}
+
+      {/* Toolbar flutuante no topo */}
+      <FloatingToolbar isViewOnly={isViewOnly} />
+
+      {/* Modal de selecao de tipo de slide */}
       {isCreateWithAiOpen && <SlideTypeSelector />}
     </div>
   );
