@@ -40,7 +40,7 @@ function ToolButton({ onClick, icon, label, isActive, disabled }: ToolButtonProp
           disabled={disabled}
           className={`
             flex size-11 items-center justify-center rounded-full
-            border transition-all duration-200 ease-out
+            border transition-all duration-200 ease-out cursor-pointer
             hover:scale-105
             active:scale-95
             disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100

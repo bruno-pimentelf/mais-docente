@@ -2,6 +2,7 @@
 
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import { useMemo } from 'react';
+import { motion } from 'motion/react';
 import { useSlideEditorLayoutStore } from '@/zustand/useSlideEditorLayoutStore';
 import { useSlidePresentationEditorStore } from '@/zustand/useSlidePresentationEditorStore';
 import {
@@ -40,7 +41,7 @@ function ThemeCard({
       type="button"
       onClick={onSelect}
       className={`
-        group flex w-full flex-col overflow-hidden rounded-xl text-left
+        group flex w-full flex-col overflow-hidden rounded-xl text-left cursor-pointer
         transition-all duration-200 ease-out
         ${isActive
           ? 'ring-2 ring-blue-500 ring-offset-1 shadow-sm'
@@ -89,7 +90,11 @@ export default function ThemeSidebar({ onClose }: ThemeSidebarProps) {
   };
 
   return (
-    <aside
+    <motion.aside
+      initial={{ x: 320, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      exit={{ x: 320, opacity: 0 }}
+      transition={{ type: 'spring', damping: 25, stiffness: 300 }}
       className="fixed right-0 top-0 z-40 flex h-screen w-80 flex-col bg-white/95 backdrop-blur-md shadow-lg border-l border-gray-200/60"
       style={{ colorScheme: 'light' }}
     >
@@ -98,7 +103,7 @@ export default function ThemeSidebar({ onClose }: ThemeSidebarProps) {
         <button
           type="button"
           onClick={handleClose}
-          className="flex size-8 items-center justify-center rounded-full transition-all hover:bg-gray-100 text-gray-500 hover:text-gray-700"
+          className="flex size-8 items-center justify-center rounded-full transition-all hover:bg-gray-100 text-gray-500 hover:text-gray-700 cursor-pointer"
           aria-label="Fechar"
         >
           <XMarkIcon className="size-5" />
@@ -122,6 +127,6 @@ export default function ThemeSidebar({ onClose }: ThemeSidebarProps) {
           ))}
         </div>
       </div>
-    </aside>
+    </motion.aside>
   );
 }

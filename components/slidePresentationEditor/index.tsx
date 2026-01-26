@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { AnimatePresence } from 'motion/react';
 import Content from './components/Content';
 import LeftSidebar from './components/LeftSidebar';
 import SlideTypeSelector from './components/SlideTypeSelector';
@@ -44,7 +45,9 @@ export default function SlidePresentationEditor({
       <Content isViewOnly={isViewOnly} />
 
       {/* Sidebar de temas (direita - fixed) */}
-      {openSidebar === 'theme' && <ThemeSidebar />}
+      <AnimatePresence>
+        {openSidebar === 'theme' && <ThemeSidebar />}
+      </AnimatePresence>
 
       {/* Toolbar flutuante no topo */}
       <FloatingToolbar isViewOnly={isViewOnly} />
