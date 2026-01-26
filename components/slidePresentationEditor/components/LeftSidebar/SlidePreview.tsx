@@ -160,8 +160,8 @@ export const SlidePreview = memo(function SlidePreviewMemo({
           group relative w-full overflow-hidden rounded-xl
           transition-all duration-200 ease-out
           ${isSlideSelected
-            ? 'ring-2 ring-blue-500 ring-offset-2 shadow-lg scale-[1.02]'
-            : 'ring-1 ring-gray-200 hover:ring-gray-300 hover:shadow-md'
+            ? 'ring-2 ring-blue-500 ring-offset-1 shadow-sm scale-[1.01]'
+            : 'ring-1 ring-gray-200/80 hover:ring-gray-300 hover:shadow-sm'
           }
         `}
         tabIndex={0}

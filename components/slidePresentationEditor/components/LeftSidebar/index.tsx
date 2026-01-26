@@ -605,9 +605,9 @@ function LeftSidebar({
                 type="button"
                 onClick={handleAddSlide}
                 className="flex w-full items-center justify-center gap-2 py-2.5 rounded-xl
-                  bg-white border border-gray-200 text-gray-600
+                  bg-white border border-gray-200/80 text-gray-600
                   hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800
-                  transition-all duration-200 shadow-sm hover:shadow"
+                  transition-all duration-200"
               >
                 <Plus className="size-4" />
                 <span className="text-sm font-medium">Novo Slide</span>

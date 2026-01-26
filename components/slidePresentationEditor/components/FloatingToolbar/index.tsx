@@ -39,13 +39,15 @@ function ToolButton({ onClick, icon, label, isActive, disabled }: ToolButtonProp
           onClick={onClick}
           disabled={disabled}
           className={`
-            flex size-12 items-center justify-center rounded-full
-            bg-white shadow-lg border border-gray-100
-            transition-all duration-200 ease-out
-            hover:scale-110 hover:shadow-xl hover:bg-gray-50
+            flex size-11 items-center justify-center rounded-full
+            border transition-all duration-200 ease-out
+            hover:scale-105
             active:scale-95
             disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100
-            ${isActive ? 'bg-blue-50 border-blue-200 text-blue-600' : 'text-gray-700'}
+            ${isActive
+              ? 'bg-blue-50 border-blue-300 text-blue-600 shadow-sm'
+              : 'bg-white/80 border-gray-200/80 text-gray-600 hover:bg-white hover:border-gray-300 hover:text-gray-800'
+            }
           `}
         >
           {icon}
@@ -137,8 +139,13 @@ export default function FloatingToolbar({ isViewOnly }: Props) {
   if (isViewOnly) return null;
 
   return (
-    <div className="fixed top-6 left-1/2 z-50 -translate-x-1/2">
-      <div className="flex items-center gap-3 rounded-full bg-white/80 backdrop-blur-xl px-4 py-3 shadow-2xl border border-gray-200/50">
+    <div className="absolute top-6 left-1/2 z-50 -translate-x-1/2 ml-32">
+      <div
+        className="flex items-center gap-3 rounded-full bg-white/90 backdrop-blur-md px-4 py-3 border border-gray-200/60"
+        style={{
+          boxShadow: '0 4px 20px -4px rgba(59, 130, 246, 0.15), 0 2px 8px -2px rgba(0, 0, 0, 0.06)',
+        }}
+      >
         {/* Undo/Redo */}
         <div className="flex items-center gap-2">
           <ToolButton

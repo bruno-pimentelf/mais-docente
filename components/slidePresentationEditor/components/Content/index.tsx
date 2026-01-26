@@ -50,13 +50,13 @@ const Content = memo(function Content({
       >
         {selectedSlide ? (
           <div className="relative">
-            {/* Sombra elegante atras do slide */}
+            {/* Sombra sutil atras do slide */}
             <div
-              className="absolute inset-0 rounded-2xl bg-black/5 blur-2xl scale-105 -z-10"
+              className="absolute inset-0 rounded-xl bg-blue-500/5 blur-xl scale-[1.02] -z-10"
               aria-hidden
             />
-            {/* Container do slide com borda sutil */}
-            <div className="rounded-lg overflow-hidden shadow-2xl ring-1 ring-black/5">
+            {/* Container do slide com borda fina */}
+            <div className="rounded-lg overflow-hidden shadow-lg ring-1 ring-gray-200/60">
               <ElementsSlide
                 slideUuid={selectedSlide.id}
                 isViewOnly={isViewOnly}

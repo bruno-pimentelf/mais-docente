@@ -43,8 +43,8 @@ function ThemeCard({
         group flex w-full flex-col overflow-hidden rounded-xl text-left
         transition-all duration-200 ease-out
         ${isActive
-          ? 'ring-2 ring-blue-500 ring-offset-2 shadow-lg scale-[1.02]'
-          : 'ring-1 ring-gray-200 hover:ring-gray-300 hover:shadow-md'
+          ? 'ring-2 ring-blue-500 ring-offset-1 shadow-sm'
+          : 'ring-1 ring-gray-200/80 hover:ring-gray-300 hover:shadow-sm'
         }
       `}
     >
@@ -90,7 +90,7 @@ export default function ThemeSidebar({ onClose }: ThemeSidebarProps) {
 
   return (
     <aside
-      className="fixed right-0 top-0 z-40 flex h-screen w-80 flex-col bg-white/95 backdrop-blur-xl shadow-2xl border-l border-gray-200/50"
+      className="fixed right-0 top-0 z-40 flex h-screen w-80 flex-col bg-white/95 backdrop-blur-md shadow-lg border-l border-gray-200/60"
       style={{ colorScheme: 'light' }}
     >
       <div className="flex items-center justify-between border-b border-gray-100 px-4 py-4">
