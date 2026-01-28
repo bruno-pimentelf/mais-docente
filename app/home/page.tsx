@@ -84,6 +84,10 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [structure, setStructure] = useState<SlideStructureItem[] | null>(null);
+  const [slideContents, setSlideContents] = useState<SlideContentChunk[]>([]);
+  const [finalContent, setFinalContent] = useState<ContentChunk | null>(null);
+  const [streamStatus, setStreamStatus] = useState<string>("");
   const formRef = useRef(null);
   const isInView = useInView(formRef, { once: true, margin: "-50px" });
 
@@ -121,7 +125,7 @@ export default function HomePage() {
               setStreamStatus(
                 chunk.message ?? `Slide ${chunk.slide_number} gerado`
               );
-              setSlideContents((prev) => [...prev, chunk]);
+              setSlideContents((prev: SlideContentChunk[]) => [...prev, chunk]);
             },
             onContent: (chunk: ContentChunk) => {
               setStreamStatus(chunk.message ?? "Concluído");
@@ -539,7 +543,7 @@ export default function HomePage() {
                       Estrutura ({structure.length} slides)
                     </p>
                     <ul className="space-y-1.5 text-sm">
-                      {structure.map((s, i) => (
+                      {structure.map((s: SlideStructureItem, i: number) => (
                         <li key={i} className="flex gap-2">
                           <span className="text-muted-foreground shrink-0">
                             {s.slide_number}.
@@ -560,7 +564,7 @@ export default function HomePage() {
                       Slides recebidos: {slideContents.length}
                     </p>
                     <ul className="space-y-1 text-sm">
-                      {slideContents.map((c, i) => (
+                      {slideContents.map((c: SlideContentChunk, i: number) => (
                         <li key={i}>
                           Slide {c.slide_number} – {c.template}
                         </li>
