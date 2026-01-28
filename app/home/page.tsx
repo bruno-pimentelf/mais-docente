@@ -10,7 +10,6 @@ import {
   type SlideContentChunk,
   type ContentChunk,
   type ApiErrorChunk,
-  type SlideStructureItem,
 } from "@/lib/slides-streaming-api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -30,20 +29,19 @@ import {
   Hash,
   GraduationCap,
   Loader2,
-  ChevronRight,
   AlertCircle,
 } from "lucide-react";
 
 const CATEGORIES = [
-  "Science",
-  "Biology",
-  "History",
-  "Mathematics",
-  "Geography",
-  "Literature",
-  "Art",
-  "Technology",
-  "Other",
+  "Ciências",
+  "Biologia",
+  "História",
+  "Matemática",
+  "Geografia",
+  "Literatura",
+  "Arte",
+  "Tecnologia",
+  "Outro",
 ];
 
 const LOCALES = [
@@ -74,30 +72,28 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [structure, setStructure] = useState<SlideStructureItem[] | null>(null);
-  const [slideContents, setSlideContents] = useState<SlideContentChunk[]>([]);
-  const [finalContent, setFinalContent] = useState<ContentChunk | null>(null);
   const [streamStatus, setStreamStatus] = useState<string>("");
+  const [progress, setProgress] = useState(0);
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
       setError(null);
-      setStructure(null);
-      setSlideContents([]);
-      setFinalContent(null);
       setStreamStatus("Iniciando geração...");
+      setProgress(0);
+      const numSlides = Math.min(20, Math.max(3, slidesNumber));
       setLoading(true);
 
       const body: SlideRequest = {
         category,
         description: description.trim(),
         locale,
-        slidesNumber: Math.min(20, Math.max(3, slidesNumber)),
+        slidesNumber: numSlides,
         grade: grade || undefined,
       };
 
       const aborter = new AbortController();
+      let slideCount = 0;
 
       try {
         await generateSlidesStream(
@@ -105,19 +101,27 @@ export default function HomePage() {
           {
             onStructure: (chunk: StructureChunk) => {
               setStreamStatus(chunk.message ?? "Estrutura recebida");
-              if (chunk.slides_structure?.length) {
-                setStructure(chunk.slides_structure);
-              }
+              setProgress(5);
             },
             onSlideContent: (chunk: SlideContentChunk) => {
+              slideCount += 1;
               setStreamStatus(
                 chunk.message ?? `Slide ${chunk.slide_number} gerado`
               );
-              setSlideContents((prev) => [...prev, chunk]);
+              setProgress(Math.min(95, (slideCount / numSlides) * 100));
             },
             onContent: (chunk: ContentChunk) => {
               setStreamStatus(chunk.message ?? "Concluído");
-              setFinalContent(chunk);
+              setProgress(100);
+              try {
+                sessionStorage.setItem(
+                  "mais-docente-generated-slides",
+                  JSON.stringify(chunk)
+                );
+                router.push("/editor-slides");
+              } catch {
+                router.push("/editor-slides");
+              }
             },
             onError: (chunk: ApiErrorChunk) => {
               setError(chunk.error ?? "Erro na geração");
@@ -135,22 +139,8 @@ export default function HomePage() {
         setLoading(false);
       }
     },
-    [category, description, locale, slidesNumber, grade]
+    [category, description, locale, slidesNumber, grade, router]
   );
-
-  const openInEditor = useCallback(() => {
-    if (!finalContent) return;
-    try {
-      sessionStorage.setItem(
-        "mais-docente-generated-slides",
-        JSON.stringify(finalContent)
-      );
-      router.push("/editor-slides");
-    } catch {
-      // payload too large; fallback: apenas redireciona
-      router.push("/editor-slides");
-    }
-  }, [finalContent, router]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
@@ -312,69 +302,25 @@ export default function HomePage() {
               </Button>
             </form>
 
-            {/* Resultado do stream */}
-            {(structure?.length || slideContents.length || finalContent) && (
-              <div className="mt-8 pt-6 border-t space-y-4">
-                <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wide">
-                  Resultado
-                </h3>
-
-                {structure?.length ? (
-                  <div className="rounded-lg border bg-muted/30 p-3">
-                    <p className="text-xs font-medium text-muted-foreground mb-2">
-                      Estrutura ({structure.length} slides)
-                    </p>
-                    <ul className="space-y-1.5 text-sm">
-                      {structure.map((s, i) => (
-                        <li key={i} className="flex gap-2">
-                          <span className="text-muted-foreground shrink-0">
-                            {s.slide_number}.
-                          </span>
-                          <span className="font-medium">{s.title}</span>
-                          <span className="text-muted-foreground">
-                            ({s.template})
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ) : null}
-
-                {slideContents.length > 0 && !finalContent && (
-                  <div className="rounded-lg border bg-muted/30 p-3">
-                    <p className="text-xs font-medium text-muted-foreground mb-2">
-                      Slides recebidos: {slideContents.length}
-                    </p>
-                    <ul className="space-y-1 text-sm">
-                      {slideContents.map((c, i) => (
-                        <li key={i}>
-                          Slide {c.slide_number} – {c.template}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {finalContent && (
-                  <div className="rounded-lg border border-primary/20 bg-primary/5 p-4 space-y-3">
-                    <p className="text-sm font-medium">
-                      {finalContent.slides_generated} slides gerados
-                    </p>
-                    {finalContent.presentation_info?.title && (
-                      <p className="text-sm text-muted-foreground">
-                        Título: {finalContent.presentation_info.title}
-                      </p>
-                    )}
-                    <Button
-                      type="button"
-                      onClick={openInEditor}
-                      className="w-full sm:w-auto"
-                    >
-                      Abrir no editor
-                      <ChevronRight className="ml-1 h-4 w-4" />
-                    </Button>
-                  </div>
-                )}
+            {/* Loading bar durante a geração */}
+            {loading && (
+              <div className="mt-6 pt-6 border-t space-y-2">
+                <div className="flex justify-between text-sm text-muted-foreground">
+                  <span>{streamStatus || "Gerando..."}</span>
+                  <span>{Math.round(progress)}%</span>
+                </div>
+                <div
+                  className="h-2 w-full rounded-full bg-muted overflow-hidden"
+                  role="progressbar"
+                  aria-valuenow={progress}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                >
+                  <div
+                    className="h-full rounded-full bg-primary transition-all duration-300 ease-out"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
               </div>
             )}
           </CardContent>
