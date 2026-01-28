@@ -54,11 +54,10 @@ function LeftSidebar({
   const slideIds = useSlidePresentationEditorStore(
     useShallow((state) => state.slides.map((slide) => slide.id))
   );
-  const addSlideAtPosition = useSlidePresentationEditorStore(
-    (state) => state.addSlideAtPosition
-  );
-
   const isGenerating = useSlideEditorLayoutStore((state) => state.isGenerating);
+  const openCreateWithAi = useSlideEditorLayoutStore(
+    (state) => state.openCreateWithAi
+  );
 
   const [dragState, setDragState] = useState<{
     activeIndex: number | null;
@@ -378,7 +377,7 @@ function LeftSidebar({
   );
 
   const handleAddSlide = () => {
-    addSlideAtPosition({ position: numSlides });
+    openCreateWithAi({ position: numSlides });
   };
 
   return (
