@@ -11,7 +11,6 @@ import {
   type ContentChunk,
   type ApiErrorChunk,
 } from "@/lib/slides-streaming-api";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -31,16 +30,7 @@ import {
 } from "@/components/ui/card";
 import { motion, useInView, AnimatePresence } from "motion/react";
 import Image from "next/image";
-import { ArrowBigLeft, Sparkles, Wand2 } from 'lucide-react';
-import {
-  LayoutTemplate,
-  FileText,
-  Globe,
-  Hash,
-  GraduationCap,
-  Loader2,
-  AlertCircle,
-} from "lucide-react";
+import { Sparkles, Wand2, FileText, Globe, Hash, GraduationCap, AlertCircle } from "lucide-react";
 
 const CATEGORIES = [
   "Ciências",
@@ -84,6 +74,10 @@ export default function HomePage() {
 
   const [streamStatus, setStreamStatus] = useState<string>("");
   const [progress, setProgress] = useState(0);
+  const [focusedField, setFocusedField] = useState<string | null>(null);
+
+  const formRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(formRef, { once: true });
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
