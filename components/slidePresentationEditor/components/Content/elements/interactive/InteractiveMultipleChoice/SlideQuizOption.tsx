@@ -62,7 +62,7 @@ export function SlideQuizOption({
           onClick();
         }
       }}
-      className={`flex items-center rounded-lg border-2 w-full
+      className={`relative z-[100] flex items-center rounded-lg border-2 w-full
         ${!studentView ? 'gap-8 py-6 px-8' : 'gap-6 py-4 px-6'}
         transition duration-300 ease-in-out
         ${cardStyle}

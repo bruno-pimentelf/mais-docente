@@ -8,29 +8,29 @@ type Props = {
 };
 
 const PreviewTextBlock = (props: Props) => {
-  const preview = usePreviewTextBlock(props);
+  const previewTextBlock = usePreviewTextBlock(props);
 
   return (
     <Group
-      x={preview.x}
-      y={preview.y}
-      rotation={preview.rotation}
+      x={previewTextBlock.x}
+      y={previewTextBlock.y}
+      rotation={previewTextBlock.rotation}
     >
       <Html>
         <div
           style={{
             pointerEvents: 'none',
-            fontSize: preview.fontSize,
-            fontFamily: preview.fontFamily,
-            textAlign: preview.textAlign,
-            width: preview.width,
+            fontSize: previewTextBlock.fontSize,
+            fontFamily: previewTextBlock.fontFamily,
+            textAlign: previewTextBlock.textAlign,
+            width: previewTextBlock.width,
             wordBreak: 'break-word',
-            lineHeight: preview.lineHeight,
+            lineHeight: previewTextBlock.lineHeight,
           }}
           dangerouslySetInnerHTML={{
-            __html: preview.text ?? '',
+            __html: previewTextBlock.text ?? '',
           }}
-        />
+        ></div>
       </Html>
     </Group>
   );

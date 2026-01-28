@@ -1,8 +1,18 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
+import { useSlidePresentationEditorStore } from '@/zustand/useSlidePresentationEditorStore';
+import { contentChunkToSlides } from '@/components/slidePresentationEditor/utils/fromStreamingApi';
+import { generateSlidesStream } from '@/lib/slides-streaming-api';
+import type { ContentChunk, SlideRequest } from '@/lib/slides-streaming-api';
+import { defaultTheme } from '@/components/slidePresentationEditor/utils/themes/slide-themes';
+import type { SlideTheme } from '@/components/slidePresentationEditor/utils/types/slide-theme.types';
 
-function EditorSkeleton() {
+const PENDING_KEY = 'mais-docente-pending-generation';
+const GENERATED_KEY = 'mais-docente-generated-slides';
+
+function EditorSkeleton({ message = 'Preparando editor' }: { message?: string }) {
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-gradient-to-br from-gray-100 via-gray-50 to-white">
       {/* Sidebar skeleton */}
@@ -63,7 +73,7 @@ function EditorSkeleton() {
                 <div className="size-10 rounded-full border-2 border-gray-200" />
                 <div className="absolute inset-0 size-10 rounded-full border-2 border-transparent border-t-blue-500 animate-spin" />
               </div>
-              <span className="text-sm font-medium text-gray-500">Preparando editor</span>
+              <span className="text-sm font-medium text-gray-500">{message}</span>
             </div>
           </div>
         </div>
@@ -81,5 +91,113 @@ const SlidePresentationEditor = dynamic(
 );
 
 export default function EditorSlidesPage() {
+  const [ready, setReady] = useState(false);
+  const [statusMessage, setStatusMessage] = useState('Preparando editor');
+  const setSlidesFromGenerated = useSlidePresentationEditorStore(
+    (s) => s.setSlidesFromGenerated
+  );
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const pendingRaw = sessionStorage.getItem(PENDING_KEY);
+    if (pendingRaw) {
+      sessionStorage.removeItem(PENDING_KEY);
+      let body: SlideRequest;
+      try {
+        body = JSON.parse(pendingRaw) as SlideRequest;
+      } catch {
+        setReady(true);
+        return;
+      }
+      if (!body.category || !body.description || !body.locale || body.slidesNumber == null) {
+        setReady(true);
+        return;
+      }
+      setReady(false);
+      setStatusMessage('Conectando...');
+      let cancelled = false;
+
+      generateSlidesStream(body, {
+        onStructure: () => {
+          if (!cancelled) setStatusMessage('Gerando estrutura...');
+        },
+        onSlideContent: (chunk) => {
+          if (!cancelled) setStatusMessage(`Gerando slide ${chunk.slide_number}...`);
+        },
+        onContent: async (chunk) => {
+          if (cancelled) return;
+          try {
+            const theme = defaultTheme as SlideTheme;
+            const logoPath = useSlidePresentationEditorStore.getState().logo_path;
+            const slides = await contentChunkToSlides(chunk, theme, logoPath);
+            if (cancelled) return;
+            setSlidesFromGenerated({
+              slides,
+              title: typeof chunk.presentation_info?.title === 'string'
+                ? chunk.presentation_info.title
+                : undefined,
+            });
+          } catch (_e) {
+            // fallback: editor abre vazio
+          } finally {
+            if (!cancelled) setReady(true);
+          }
+        },
+        onError: () => {
+          if (!cancelled) setReady(true);
+        },
+      }).catch(() => {
+        if (!cancelled) setReady(true);
+      });
+
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    const generatedRaw = sessionStorage.getItem(GENERATED_KEY);
+    if (generatedRaw) {
+      let cancelled = false;
+      (async () => {
+        try {
+          const content = JSON.parse(generatedRaw) as ContentChunk;
+          if (
+            !content ||
+            content.type !== 'content' ||
+            !Array.isArray(content.entire_slide_content)
+          ) {
+            sessionStorage.removeItem(GENERATED_KEY);
+            if (!cancelled) setReady(true);
+            return;
+          }
+          const theme = (defaultTheme as SlideTheme) ?? undefined;
+          const logoPath = useSlidePresentationEditorStore.getState().logo_path;
+          const slides = await contentChunkToSlides(content, theme, logoPath);
+          if (cancelled) return;
+          setSlidesFromGenerated({
+            slides,
+            title: typeof content.presentation_info?.title === 'string'
+              ? content.presentation_info.title
+              : undefined,
+          });
+          sessionStorage.removeItem(GENERATED_KEY);
+        } catch (_e) {
+          sessionStorage.removeItem(GENERATED_KEY);
+        } finally {
+          if (!cancelled) setReady(true);
+        }
+      })();
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    setReady(true);
+  }, [setSlidesFromGenerated]);
+
+  if (!ready) {
+    return <EditorSkeleton message={statusMessage} />;
+  }
   return <SlidePresentationEditor />;
 }

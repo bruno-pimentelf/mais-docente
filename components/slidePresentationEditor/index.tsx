@@ -4,10 +4,10 @@ import Content from './components/Content';
 import LeftSidebar from './components/LeftSidebar';
 import SlideTypeSelector from './components/SlideTypeSelector';
 import ThemeSidebar from './components/ThemeSidebar';
+import QuizOptionsSidebar from './components/QuizOptionsSidebar';
 import FloatingToolbar from './components/FloatingToolbar';
 import { useSlidePresentationEditorStore } from '@/zustand/useSlidePresentationEditorStore';
 import { useSlideEditorLayoutStore } from '@/zustand/useSlideEditorLayoutStore';
-
 type Props = {
   onBack?: () => void;
   isViewOnly?: boolean;
@@ -44,9 +44,10 @@ export default function SlidePresentationEditor({
       {/* Area principal do slide */}
       <Content isViewOnly={isViewOnly} />
 
-      {/* Sidebar de temas (direita - fixed) */}
+      {/* Sidebars (temas / quiz) */}
       <AnimatePresence>
         {openSidebar === 'theme' && <ThemeSidebar />}
+        {openSidebar === 'quiz' && <QuizOptionsSidebar />}
       </AnimatePresence>
 
       {/* Toolbar flutuante no topo */}

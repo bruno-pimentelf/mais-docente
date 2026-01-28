@@ -12,12 +12,12 @@ type Props = CommonProps & {
 };
 
 const TextBlock = (props: Props) => {
-  const { isPreview, ...rest } = props;
+  const { isPreview, ...commonProps } = props;
 
   return isPreview ? (
-    <PreviewTextBlock {...rest} />
+    <PreviewTextBlock {...commonProps} />
   ) : (
-    <EditableTextBlock {...rest} />
+    <EditableTextBlock {...commonProps} />
   );
 };
 

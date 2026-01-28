@@ -12,7 +12,7 @@ import type { SlideTheme } from '@/components/slidePresentationEditor/utils/type
 import { CoverSlideFactory } from '@/components/slidePresentationEditor/utils/factories/cover-slide.factory';
 import PureSlideRenderer from '../Content/Slide/variants/PureSlideRenderer';
 
-const DEFAULT_LOGO = '/images/icons/lara-icon-talk.svg';
+const DEFAULT_LOGO = '/images/icons/mais-docente-logo.svg';
 const PREVIEW_SCALE = 180 / 1920;
 
 const themesList: SlideTheme[] = Object.values(slideThemes);

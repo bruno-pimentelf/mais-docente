@@ -50,6 +50,8 @@ const PureSlideRenderer = ({
   };
 
   const getSlideElement = (element: SlideElement) => {
+    // Para o preview puro, vamos simplificar os elementos e focar nos visuais
+
     if (element.subtype === SlideImageElementsVariants.BACKGROUND_IMAGE) {
       const image = element;
       return (
@@ -136,8 +138,8 @@ const PureSlideRenderer = ({
         text.subtype === SlideTextElementsVariants.PARAGRAPH ||
         text.subtype === SlideTextElementsVariants.QUOTE
       ) {
-        const hasList =
-          text.text.includes('<ul') || text.text.includes('<ol');
+        // Check if content contains a list
+        const hasList = text.text.includes('<ul') || text.text.includes('<ol');
 
         return (
           <div
@@ -157,7 +159,10 @@ const PureSlideRenderer = ({
                 : undefined,
               transformOrigin: 'top left',
               overflowWrap: 'break-word',
-              ...(hasList && { listStylePosition: 'inside' as const }),
+              // List-specific styles to ensure bullets render correctly
+              ...(hasList && {
+                listStylePosition: 'inside' as const,
+              }),
             }}
             dangerouslySetInnerHTML={{ __html: text.text }}
           />

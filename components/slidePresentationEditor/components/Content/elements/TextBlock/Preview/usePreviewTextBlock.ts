@@ -12,12 +12,18 @@ const usePreviewTextBlock = ({ slideUuid, elementUuid }: Props) => {
     useShallow(
       (state) =>
         state.slides
-          .find((s) => s.id === slideUuid)
-          ?.elements?.find((el) => el.id === elementUuid) as SlideText | undefined
+          .find((slide) => slide.id === slideUuid)
+          ?.elements?.find((element) => element.id === elementUuid) as SlideText
     )
   );
 
-  return element ?? ({} as SlideText);
+  const textSlideElement: SlideText | null = element
+    ? (element as SlideText)
+    : null;
+
+  return {
+    ...textSlideElement,
+  };
 };
 
 export default usePreviewTextBlock;

@@ -1,11 +1,12 @@
 'use client';
 
-import { Undo2, Redo2, Palette } from 'lucide-react';
+import { Undo2, Redo2, Palette, ListChecks } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { useSlidePresentationEditorStore } from '@/zustand/useSlidePresentationEditorStore';
 import { useSlideEditorLayoutStore } from '@/zustand/useSlideEditorLayoutStore';
 import useMediaQuery from '../../hooks/useMediaQuery';
 import TopbarElementsMenu from './TopbarElementsMenu';
+import { SlideVariants } from '../../types';
 
 type SubHeaderProps = {
   isPreview: boolean;
@@ -25,6 +26,10 @@ const SubHeader = ({
   const setSubHeaderHeight = useSlideEditorLayoutStore((s) => s.setSubHeaderHeight);
   const setSlideSidebar = useSlideEditorLayoutStore((s) => s.setSlideSidebar);
   const openSidebar = useSlideEditorLayoutStore((s) => s.openSidebar);
+  const selectedSlide = useSlidePresentationEditorStore((s) =>
+    s.slides.find((slide) => slide.id === s.selectedSlide)
+  );
+  const isQuizSlide = selectedSlide?.variant === SlideVariants.INTERACTIVE_MULTIPLE_CHOICE;
 
   const { undo, redo, pastStates, futureStates } =
     useSlidePresentationEditorStore.temporal.getState();
@@ -86,6 +91,16 @@ const SubHeader = ({
       >
         <Palette className="size-4" />
       </button>
+      {isQuizSlide && (
+        <button
+          type="button"
+          onClick={() => setSlideSidebar(openSidebar === 'quiz' ? null : 'quiz')}
+          className={`flex size-8 items-center justify-center rounded transition-colors hover:bg-[#f3f4f6] ${openSidebar === 'quiz' ? 'bg-[#dbeafe] text-[#2563eb]' : 'text-[#111827]'}`}
+          title="Editar quiz"
+        >
+          <ListChecks className="size-4" />
+        </button>
+      )}
       <div className="mx-2 h-6 w-px bg-[#e5e7eb]" />
       <TopbarElementsMenu
         isPreview={isPreview}

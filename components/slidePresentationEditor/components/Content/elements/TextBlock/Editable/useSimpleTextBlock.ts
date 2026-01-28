@@ -67,8 +67,18 @@ export function useSimpleTextBlock({ slideUuid, elementUuid, isViewOnly }: Props
   const isDraggable = !isViewOnly && (!isMobile || isTransforming);
   const showContextMenu = (contextMenu?.visible && contextMenu?.activeElementUuid === elementUuid) ?? false;
 
-  const w = (currentWidth || scaled.width) || element?.width || 1;
-  const h = (currentHeight || scaled.height) || element?.height || 1;
+  // Quando width/height são 0 (ex.: texto recém-criado), usar mínimo para o transformer até medir o conteúdo
+  const needsMinSize =
+    (element?.width === 0 || element?.width == null) &&
+    (element?.height === 0 || element?.height == null);
+  const minScaledW = 200 * slideScalingDelta;
+  const minScaledH = 40 * slideScalingDelta;
+  const w =
+    (currentWidth || scaled.width) ||
+    (needsMinSize ? minScaledW : (element?.width ?? 1) * slideScalingDelta);
+  const h =
+    (currentHeight || scaled.height) ||
+    (needsMinSize ? minScaledH : (element?.height ?? 1) * slideScalingDelta);
 
   const handleClick = useCallback(() => {
     if (isViewOnly) return;
@@ -190,6 +200,7 @@ export function useSimpleTextBlock({ slideUuid, elementUuid, isViewOnly }: Props
 
   return {
     ...scaled,
+    element,
     text: element?.text ?? '',
     fontFamily: element?.fontFamily ?? 'Arial',
     textAlign: element?.textAlign ?? 'left',

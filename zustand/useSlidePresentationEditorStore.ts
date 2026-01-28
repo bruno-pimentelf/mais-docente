@@ -164,7 +164,7 @@ function getNewSlide(
   position: number,
   backgroundColor?: string,
   currentTheme?: SlideTheme,
-  logo_path: string = '/images/icons/lara-icon-talk.svg',
+  logo_path: string = '/images/icons/mais-docente-logo.svg',
   customTheme?: CustomTheme
 ): Slide {
   const uuid = uuidv4();
@@ -253,7 +253,7 @@ const INITIAL_STATE: PresentationEditorState = {
   uuid: null,
   title: '',
   slides: [],
-  logo_path: '/images/icons/lara-icon-talk.svg',
+  logo_path: '/images/icons/mais-docente-logo.svg',
   selectedSlide: null,
   openSidebar: null,
   lastAddedSlideId: null,
@@ -268,6 +268,7 @@ type Actions = {
   resetPresentation: () => void;
   loadPresentation: (state: PresentationEditorState) => void;
   loadPresentationFromAPI: (payload: any) => void;
+  setSlidesFromGenerated: (p: { slides: Slide[]; title?: string }) => void;
   updateTitle: (title: string) => void;
   updatePresentationMetadata: (p: {
     title?: string;
@@ -608,6 +609,16 @@ export const useSlidePresentationEditorStore = create<Store>()(
         loadPresentationFromAPI: (_presentation) =>
           set(() => {
             devLog('loadPresentationFromAPI (no-op: API not integrated yet)');
+          }),
+
+        setSlidesFromGenerated: ({ slides: newSlides, title: newTitle }) =>
+          set((s) => {
+            devLog('setSlidesFromGenerated');
+            if (!newSlides || newSlides.length === 0) return;
+            s.slides = newSlides.map((sl, idx) => ({ ...sl, order: idx + 1 }));
+            s.selectedSlide = newSlides[0]?.id ?? null;
+            s.lastAddedSlideId = newSlides[0]?.id ?? null;
+            if (newTitle !== undefined) s.title = newTitle;
           }),
 
         updateTitle: (title) =>
@@ -1722,7 +1733,7 @@ export const useSlidePresentationEditorStore = create<Store>()(
         applyThemeToAllSlides: (theme) =>
           set((s) => {
             devLog('applyThemeToAllSlides');
-            s.logo_path = theme.logo_path ?? '/images/icons/lara-icon-talk.svg';
+            s.logo_path = theme.logo_path ?? '/images/icons/mais-docente-logo.svg';
             // Update current theme
             s.currentTheme = theme;
             // Clear custom theme when a predefined theme is applied
@@ -1845,7 +1856,7 @@ export const useSlidePresentationEditorStore = create<Store>()(
                 ) {
                   const imageElement = element as SlideImage;
                   imageElement.src =
-                    theme.logo_path ?? '/images/icons/lara-icon-talk.svg';
+                    theme.logo_path ?? '/images/icons/mais-docente-logo.svg';
                 } else if (
                   element.type === SlideElementBaseTypes.IMAGE &&
                   element.src?.startsWith('data:image/svg+xml')

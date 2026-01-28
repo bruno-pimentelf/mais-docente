@@ -9,26 +9,13 @@ import { useSlideEditorLayoutStore } from '@/zustand/useSlideEditorLayoutStore';
 import { Button } from '@/components/ui/button';
 import { createSlideFromTemplate } from '@/components/slidePresentationEditor/utils/createSlideFromTemplate';
 import type { SlideTheme } from '@/components/slidePresentationEditor/utils/types/slide-theme.types';
+import type {
+  TTemplateGroupId,
+  TemplateGroup,
+  SlideTypeSelectorItemProps,
+} from './types';
 
-type TTemplateGroupId =
-  | 'text'
-  | 'text_with_images'
-  | 'topics'
-  | 'topics_with_images'
-  | 'table'
-  | 'timeline'
-  | 'question'
-  | 'quote'
-  | 'data'
-  | 'crossword'
-  | 'word_search';
-
-const templateGroups: {
-  id: TTemplateGroupId;
-  multiple: boolean;
-  icon: string;
-  isInteractive?: boolean;
-}[] = [
+const templateGroups: TemplateGroup[] = [
   {
     id: 'text',
     multiple: true,
@@ -115,13 +102,7 @@ function SlideTypeSelectorItem({
   isSelected,
   tag,
   onClick,
-}: {
-  name: string;
-  icon: string;
-  isSelected: boolean;
-  tag?: string;
-  onClick: () => void;
-}) {
+}: SlideTypeSelectorItemProps) {
   return (
     <button
       type="button"
@@ -221,7 +202,7 @@ export default function SlideTypeSelector() {
       const theme = (state.currentTheme ||
         detectCurrentTheme(state)) as SlideTheme;
       const logo =
-        state.logo_path ?? '/images/icons/lara-icon-talk.svg';
+        state.logo_path ?? '/images/icons/mais-docente-logo.svg';
       const slide = await createSlideFromTemplate(
         selectedSlideType,
         finalPosition,

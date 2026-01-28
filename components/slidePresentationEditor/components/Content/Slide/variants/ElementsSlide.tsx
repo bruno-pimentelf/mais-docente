@@ -237,6 +237,9 @@ const ElementsSlide = ({
   const transformingElementId = useSlideEditorLayoutStore(
     (state) => state.transformingElementId
   );
+  const setSlideSidebar = useSlideEditorLayoutStore(
+    (state) => state.setSlideSidebar
+  );
 
   const handleClick = (elementUuid: string) => {
     setTransformingElementId(elementUuid);
@@ -423,21 +426,21 @@ const ElementsSlide = ({
 
     if (element.type === SlideElementBaseTypes.TEXT) {
       const text = element;
-      if (
-        text.subtype === SlideTextElementsVariants.PARAGRAPH ||
-        text.subtype === SlideTextElementsVariants.QUOTE
-      ) {
-        return (
-          <TextBlock
-            key={text.id}
-            isViewOnly={isViewOnly}
-            slideUuid={slideUuid}
-            elementUuid={text.id}
-            isPreview={isPreview || isPresentationMode}
-          />
-        );
+      switch (text.subtype) {
+        case SlideTextElementsVariants.PARAGRAPH:
+        case SlideTextElementsVariants.QUOTE:
+          return (
+            <TextBlock
+              key={text.id}
+              isViewOnly={isViewOnly}
+              slideUuid={slideUuid}
+              elementUuid={text.id}
+              isPreview={isPreview || isPresentationMode}
+            />
+          );
+        default:
+          return null;
       }
-      return null;
     }
 
     if (element.type === SlideElementBaseTypes.VIDEO) {
@@ -543,6 +546,11 @@ const ElementsSlide = ({
             (slide.elements?.[0] as SlideInteractiveMultipleChoice) ?? ({} as SlideInteractiveMultipleChoice)
           }
           viewOnly={isPreview || isViewOnly}
+          onOpenOptions={
+            !isPreview && !isViewOnly
+              ? () => setSlideSidebar('quiz')
+              : undefined
+          }
         />
       </Slide>
     );

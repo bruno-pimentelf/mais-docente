@@ -19,7 +19,7 @@ type SlideEditorLayoutState = {
   isGenerating: boolean;
   isStreamingFinished: boolean;
   slidesToBeGenerated: number;
-  openSidebar: 'theme' | 'fillWithAi' | 'gif' | 'image' | null;
+  openSidebar: 'theme' | 'fillWithAi' | 'gif' | 'image' | 'quiz' | null;
   contextMenu: {
     visible: boolean;
     position: { x: number; y: number };
@@ -38,6 +38,8 @@ type SlideEditorLayoutState = {
     isOpen: boolean;
     position: number | null;
   };
+  quizSidebarActiveTab: 'editar' | 'respostas' | 'qrcode';
+  quizQrCodeUrl: string;
 };
 
 const INITIAL_STATE: SlideEditorLayoutState = {
@@ -71,6 +73,8 @@ const INITIAL_STATE: SlideEditorLayoutState = {
     isOpen: false,
     position: null,
   },
+  quizSidebarActiveTab: 'editar',
+  quizQrCodeUrl: '',
 };
 
 type Actions = {
@@ -103,13 +107,15 @@ type Actions = {
   setSelectedElementUuids: (ids: string[]) => void;
   clearSelectedElementUuids: () => void;
   setBottomMenuHeight: (v: number) => void;
-  setSlideSidebar: (v: 'theme' | 'fillWithAi' | 'gif' | 'image' | null) => void;
+  setSlideSidebar: (v: 'theme' | 'fillWithAi' | 'gif' | 'image' | 'quiz' | null) => void;
   closeSlideSidebar: () => void;
   setEditingElementId: (id: string | null) => void;
   setTransformingElementId: (id: string | null) => void;
   unselectAllElements: () => void;
   openCreateWithAi: (payload?: { position: number }) => void;
   closeCreateWithAi: () => void;
+  setQuizSidebarActiveTab: (v: 'editar' | 'respostas' | 'qrcode') => void;
+  setQuizQrCodeUrl: (v: string) => void;
   resetSlideEditorLayout: () => void;
 };
 
@@ -251,6 +257,7 @@ export const useSlideEditorLayoutStore = create<Store>()(
       closeSlideSidebar: () =>
         set((s) => {
           s.openSidebar = null;
+          s.quizSidebarActiveTab = 'editar';
         }),
       setEditingElementId: (id) =>
         set((s) => {
@@ -274,6 +281,14 @@ export const useSlideEditorLayoutStore = create<Store>()(
         set((s) => {
           s.createWithAi.isOpen = false;
           s.createWithAi.position = null;
+        }),
+      setQuizSidebarActiveTab: (v) =>
+        set((s) => {
+          s.quizSidebarActiveTab = v;
+        }),
+      setQuizQrCodeUrl: (v) =>
+        set((s) => {
+          s.quizQrCodeUrl = v;
         }),
       resetSlideEditorLayout: () => set(() => INITIAL_STATE),
     }))

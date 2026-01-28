@@ -1,6 +1,7 @@
 import { useSlidePresentationEditorStore } from '@/zustand/useSlidePresentationEditorStore';
+import { useSlideEditorLayoutStore } from '@/zustand/useSlideEditorLayoutStore';
 import { Trash } from 'lucide-react';
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { Group, Rect } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import useMediaQuery from '../../../../../hooks/useMediaQuery';
@@ -20,15 +21,59 @@ type Props = {
 const EditableTextBlock = (props: Props) => {
   const tb = useSimpleTextBlock(props);
   const removeElement = useSlidePresentationEditorStore((s) => s.removeElement);
+  const setSlideElementWidth = useSlidePresentationEditorStore((s) => s.setSlideElementWidth);
+  const setSlideElementHeight = useSlidePresentationEditorStore((s) => s.setSlideElementHeight);
+  const slideScalingDelta = useSlideEditorLayoutStore((s) => s.slideScalingDelta);
   const editRef = useRef<HTMLDivElement>(null);
+  const previewRef = useRef<HTMLDivElement>(null);
   const isMobile = useMediaQuery('(max-width: 768px)');
+
+  const measureAndUpdateSize = useCallback(
+    (el: HTMLElement | null) => {
+      if (!el || !slideScalingDelta) return;
+      const rect = el.getBoundingClientRect();
+      if (rect.width <= 0 || rect.height <= 0) return;
+      setSlideElementWidth({
+        slideUuid: props.slideUuid,
+        elementUuid: props.elementUuid,
+        width: rect.width / slideScalingDelta,
+      });
+      setSlideElementHeight({
+        slideUuid: props.slideUuid,
+        elementUuid: props.elementUuid,
+        height: rect.height / slideScalingDelta,
+      });
+    },
+    [props.slideUuid, props.elementUuid, slideScalingDelta, setSlideElementWidth, setSlideElementHeight]
+  );
 
   useEffect(() => {
     if (tb.isTransforming && tb.transformerRef.current && tb.groupRef.current) {
       tb.transformerRef.current.nodes([tb.groupRef.current]);
       tb.transformerRef.current.getLayer()?.batchDraw();
     }
-  }, [tb.isTransforming]);
+  // currentWidth/currentHeight para o transformer acompanhar após medida do conteúdo; refs estáveis
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tb.isTransforming, tb.currentWidth, tb.currentHeight]);
+
+  // Medir conteúdo e atualizar width/height quando estão 0 (texto recém-criado) para o transformer ficar no tamanho do texto
+  useEffect(() => {
+    const needsMeasure =
+      tb.element &&
+      (tb.element.width === 0 || tb.element.height === 0);
+    if (!needsMeasure) return;
+    const el = tb.isEditing ? editRef.current : previewRef.current;
+    if (!el) return;
+    const t = setTimeout(() => measureAndUpdateSize(el), 80);
+    return () => clearTimeout(t);
+  }, [
+    tb.element,
+    tb.element?.id,
+    tb.element?.width,
+    tb.element?.height,
+    tb.isEditing,
+    measureAndUpdateSize,
+  ]);
 
   // Só preenche ao entrar em edição; tb.text de propósito fora de deps para não sobrescrever enquanto o utilizador edita
   useEffect(() => {
@@ -45,7 +90,11 @@ const EditableTextBlock = (props: Props) => {
   }, [tb.isEditing]);
 
   const handleBlur = () => {
-    if (editRef.current) tb.handleUpdateText(editRef.current.innerHTML || '');
+    if (editRef.current) {
+      tb.handleUpdateText(editRef.current.innerHTML || '');
+      // Atualizar altura (e largura) para o transformer acompanhar o tamanho do texto após edição
+      measureAndUpdateSize(editRef.current);
+    }
   };
 
   const showFloatingToolbar = tb.isTransforming && !props.isViewOnly;
@@ -110,13 +159,19 @@ const EditableTextBlock = (props: Props) => {
             />
           ) : (
             <div
+              ref={previewRef}
               style={{
                 fontSize: tb.fontSize,
                 fontFamily: tb.fontFamily,
                 textAlign: tb.textAlign as React.CSSProperties['textAlign'],
                 lineHeight: tb.lineHeight,
-                width: tb.currentWidth > 0 ? tb.currentWidth + LINE_BREAK_CORRECTION : 'auto',
-                minHeight: tb.currentHeight,
+                width:
+                  tb.element?.width === 0 && tb.element?.height === 0
+                    ? 'auto'
+                    : tb.currentWidth > 0
+                      ? tb.currentWidth + LINE_BREAK_CORRECTION
+                      : 'auto',
+                minHeight: tb.currentHeight > 0 ? tb.currentHeight : undefined,
               }}
               dangerouslySetInnerHTML={{ __html: tb.text ?? '' }}
             />
