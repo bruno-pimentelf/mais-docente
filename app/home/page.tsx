@@ -3,7 +3,15 @@
 import { useState, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import type { SlideRequest } from "@/lib/slides-streaming-api";
+import {
+  generateSlidesStream,
+  type SlideRequest,
+  type StructureChunk,
+  type SlideContentChunk,
+  type ContentChunk,
+  type ApiErrorChunk,
+  type SlideStructureItem,
+} from "@/lib/slides-streaming-api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,28 +23,27 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ArrowBigLeft } from 'lucide-react';
 import {
   LayoutTemplate,
   FileText,
   Globe,
   Hash,
   GraduationCap,
+  Loader2,
+  ChevronRight,
   AlertCircle,
 } from "lucide-react";
 
-const PENDING_GENERATION_KEY = "mais-docente-pending-generation";
-
 const CATEGORIES = [
-  "Ciências",
-  "Biologia",
-  "História",
-  "Matemática",
-  "Geografia",
-  "Literatura",
-  "Artes",
-  "Tecnologia",
-  "Outros",
+  "Science",
+  "Biology",
+  "History",
+  "Mathematics",
+  "Geography",
+  "Literature",
+  "Art",
+  "Technology",
+  "Other",
 ];
 
 const LOCALES = [
@@ -67,10 +74,19 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const [structure, setStructure] = useState<SlideStructureItem[] | null>(null);
+  const [slideContents, setSlideContents] = useState<SlideContentChunk[]>([]);
+  const [finalContent, setFinalContent] = useState<ContentChunk | null>(null);
+  const [streamStatus, setStreamStatus] = useState<string>("");
+
   const handleSubmit = useCallback(
-    (e: React.FormEvent) => {
+    async (e: React.FormEvent) => {
       e.preventDefault();
       setError(null);
+      setStructure(null);
+      setSlideContents([]);
+      setFinalContent(null);
+      setStreamStatus("Iniciando geração...");
       setLoading(true);
 
       const body: SlideRequest = {
@@ -81,19 +97,60 @@ export default function HomePage() {
         grade: grade || undefined,
       };
 
+      const aborter = new AbortController();
+
       try {
-        sessionStorage.setItem(
-          PENDING_GENERATION_KEY,
-          JSON.stringify(body)
+        await generateSlidesStream(
+          body,
+          {
+            onStructure: (chunk: StructureChunk) => {
+              setStreamStatus(chunk.message ?? "Estrutura recebida");
+              if (chunk.slides_structure?.length) {
+                setStructure(chunk.slides_structure);
+              }
+            },
+            onSlideContent: (chunk: SlideContentChunk) => {
+              setStreamStatus(
+                chunk.message ?? `Slide ${chunk.slide_number} gerado`
+              );
+              setSlideContents((prev) => [...prev, chunk]);
+            },
+            onContent: (chunk: ContentChunk) => {
+              setStreamStatus(chunk.message ?? "Concluído");
+              setFinalContent(chunk);
+            },
+            onError: (chunk: ApiErrorChunk) => {
+              setError(chunk.error ?? "Erro na geração");
+              setStreamStatus("");
+            },
+          },
+          { endpoint: "/slide/v3", signal: aborter.signal }
         );
-        router.push("/editor-slides");
-      } catch {
-        setError("Não foi possível iniciar a geração.");
+      } catch (err: unknown) {
+        const msg =
+          err instanceof Error ? err.message : "Falha ao conectar à API";
+        setError(msg);
+        setStreamStatus("");
+      } finally {
         setLoading(false);
       }
     },
-    [category, description, locale, slidesNumber, grade, router]
+    [category, description, locale, slidesNumber, grade]
   );
+
+  const openInEditor = useCallback(() => {
+    if (!finalContent) return;
+    try {
+      sessionStorage.setItem(
+        "mais-docente-generated-slides",
+        JSON.stringify(finalContent)
+      );
+      router.push("/editor-slides");
+    } catch {
+      // payload too large; fallback: apenas redireciona
+      router.push("/editor-slides");
+    }
+  }, [finalContent, router]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
@@ -101,9 +158,9 @@ export default function HomePage() {
         <div className="mb-8">
           <Link
             href="/"
-            className="text-sm text-muted-foreground hover:text-foreground flex justify-start items-center gap-2"
+            className="text-sm text-muted-foreground hover:text-foreground"
           >
-            <ArrowBigLeft className="h-4 w-4" /> Voltar
+            ← Voltar
           </Link>
         </div>
 
@@ -244,9 +301,82 @@ export default function HomePage() {
                 className="w-full h-11 text-base font-medium"
                 disabled={loading}
               >
-                {loading ? "Abrindo editor..." : "Gerar apresentação"}
+                {loading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    {streamStatus || "Gerando..."}
+                  </>
+                ) : (
+                  "Gerar apresentação"
+                )}
               </Button>
             </form>
+
+            {/* Resultado do stream */}
+            {(structure?.length || slideContents.length || finalContent) && (
+              <div className="mt-8 pt-6 border-t space-y-4">
+                <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wide">
+                  Resultado
+                </h3>
+
+                {structure?.length ? (
+                  <div className="rounded-lg border bg-muted/30 p-3">
+                    <p className="text-xs font-medium text-muted-foreground mb-2">
+                      Estrutura ({structure.length} slides)
+                    </p>
+                    <ul className="space-y-1.5 text-sm">
+                      {structure.map((s, i) => (
+                        <li key={i} className="flex gap-2">
+                          <span className="text-muted-foreground shrink-0">
+                            {s.slide_number}.
+                          </span>
+                          <span className="font-medium">{s.title}</span>
+                          <span className="text-muted-foreground">
+                            ({s.template})
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+
+                {slideContents.length > 0 && !finalContent && (
+                  <div className="rounded-lg border bg-muted/30 p-3">
+                    <p className="text-xs font-medium text-muted-foreground mb-2">
+                      Slides recebidos: {slideContents.length}
+                    </p>
+                    <ul className="space-y-1 text-sm">
+                      {slideContents.map((c, i) => (
+                        <li key={i}>
+                          Slide {c.slide_number} – {c.template}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {finalContent && (
+                  <div className="rounded-lg border border-primary/20 bg-primary/5 p-4 space-y-3">
+                    <p className="text-sm font-medium">
+                      {finalContent.slides_generated} slides gerados
+                    </p>
+                    {finalContent.presentation_info?.title && (
+                      <p className="text-sm text-muted-foreground">
+                        Título: {finalContent.presentation_info.title}
+                      </p>
+                    )}
+                    <Button
+                      type="button"
+                      onClick={openInEditor}
+                      className="w-full sm:w-auto"
+                    >
+                      Abrir no editor
+                      <ChevronRight className="ml-1 h-4 w-4" />
+                    </Button>
+                  </div>
+                )}
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
