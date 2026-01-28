@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -17,12 +17,22 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { motion, useInView, AnimatePresence } from "motion/react";
+import Image from "next/image";
+import { ArrowBigLeft, Sparkles, Wand2 } from 'lucide-react';
 import {
   LayoutTemplate,
   FileText,
@@ -73,11 +83,9 @@ export default function HomePage() {
   const [grade, setGrade] = useState("high school");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const [structure, setStructure] = useState<SlideStructureItem[] | null>(null);
-  const [slideContents, setSlideContents] = useState<SlideContentChunk[]>([]);
-  const [finalContent, setFinalContent] = useState<ContentChunk | null>(null);
-  const [streamStatus, setStreamStatus] = useState<string>("");
+  const [focusedField, setFocusedField] = useState<string | null>(null);
+  const formRef = useRef(null);
+  const isInView = useInView(formRef, { once: true, margin: "-50px" });
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
@@ -153,163 +161,369 @@ export default function HomePage() {
   }, [finalContent, router]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
-      <div className="max-w-2xl mx-auto px-4 py-8 md:py-12">
-        <div className="mb-8">
+    <div className="min-h-screen bg-background">
+      {/* Background gradient with animated elements */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(var(--primary)/0.08),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.4)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.4)_1px,transparent_1px)] bg-[size:80px_80px] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_70%)]" />
+        <motion.div
+          className="absolute top-1/4 left-[10%] size-64 rounded-full bg-primary/10 blur-3xl"
+          animate={{ y: [0, 30, 0], x: [0, 15, 0] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute bottom-1/4 right-[10%] size-80 rounded-full bg-primary/5 blur-3xl"
+          animate={{ y: [0, -25, 0], x: [0, -20, 0] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        />
+      </div>
+
+      <div className="relative max-w-7xl mx-auto px-4 py-8 md:py-12 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-8"
+        >
           <Link
             href="/"
-            className="text-sm text-muted-foreground hover:text-foreground"
+            className="text-sm text-muted-foreground hover:text-foreground flex justify-start items-center gap-2 transition-colors"
           >
             ← Voltar
           </Link>
-        </div>
+        </motion.div>
 
-        <Card className="border-0 shadow-xl shadow-slate-200/50 overflow-hidden">
-          <CardHeader className="bg-slate-50/80 border-b">
-            <CardTitle className="flex items-center gap-2 text-xl">
-              <LayoutTemplate className="h-5 w-5 text-primary" />
-              Gerar apresentação
-            </CardTitle>
-            <CardDescription>
-              Preencha o foco da apresentação e a Slides Streaming API gera os
-              slides em tempo real.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="pt-6">
-            <form onSubmit={handleSubmit} className="space-y-5">
-              {error && (
-                <div className="flex items-start gap-2 p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm">
-                  <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
-                  <span>{error}</span>
+        <div className="grid lg:grid-cols-3 gap-8 lg:gap-12 items-start">
+          {/* Image section */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="hidden lg:block lg:col-span-1 sticky top-8"
+          >
+            <div className="relative w-full aspect-square">
+              <Image
+                src="/images/home/slide-presentation.svg"
+                alt="Apresentação de slides"
+                fill
+                className="object-contain"
+                priority
+              />
+            </div>
+          </motion.div>
+
+        <motion.div
+          ref={formRef}
+          initial={{ opacity: 0, filter: "blur(20px)", y: 50 }}
+          animate={
+            isInView
+              ? { opacity: 1, filter: "blur(0px)", y: 0 }
+              : { opacity: 0, filter: "blur(20px)", y: 50 }
+          }
+          transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+          className="lg:col-span-2"
+        >
+          <Card className="border border-border bg-card/80 backdrop-blur-xl shadow-2xl shadow-black/5 overflow-hidden">
+            {/* Glow effect */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-primary/10 to-primary/20 rounded-lg blur-xl opacity-50" />
+            
+            <CardHeader className="relative bg-muted/30 border-b border-border">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ delay: 0.2, duration: 0.5 }}
+                className="flex items-center gap-3"
+              >
+                <motion.div
+                  className="size-12 rounded-xl bg-primary/10 flex items-center justify-center"
+                  animate={{ rotate: [0, 5, -5, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  <Wand2 className="h-6 w-6 text-primary" />
+                </motion.div>
+                <div>
+                  <CardTitle className="flex items-center gap-2 text-2xl text-foreground">
+                    <Sparkles className="h-5 w-5 text-primary" />
+                    Gerar apresentação
+                  </CardTitle>
+                  <CardDescription className="text-muted-foreground mt-1">
+                    Preencha o foco da apresentação e a IA gera os slides em tempo real.
+                  </CardDescription>
                 </div>
-              )}
+              </motion.div>
+            </CardHeader>
+            <CardContent className="relative pt-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
+              <AnimatePresence>
+                {error && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                    className="flex items-start gap-2 p-3 rounded-lg bg-destructive/10 dark:bg-destructive/20 border border-destructive/20 text-destructive text-sm"
+                  >
+                    <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
+                    <span>{error}</span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
-              <div className="space-y-2">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.3 }}
+                className="space-y-2"
+              >
                 <Label
                   htmlFor="category"
-                  className="flex items-center gap-2 text-sm font-medium"
+                  className="flex items-center gap-2 text-sm font-medium text-foreground"
                 >
-                  <FileText className="h-4 w-4" />
+                  <motion.div
+                    animate={focusedField === "category" ? { scale: [1, 1.1, 1] } : {}}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <FileText className="h-4 w-4 text-primary" />
+                  </motion.div>
                   Categoria
                 </Label>
-                <select
-                  id="category"
+                <Select
                   value={category}
-                  onChange={(e) => setCategory(e.target.value)}
+                  onValueChange={setCategory}
                   disabled={loading}
-                  className="flex h-10 w-full rounded-lg border border-input bg-transparent px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  {CATEGORIES.map((c) => (
-                    <option key={c} value={c}>
-                      {c}
-                    </option>
-                  ))}
-                </select>
-              </div>
+                  <SelectTrigger
+                    onFocus={() => setFocusedField("category")}
+                    onBlur={() => setFocusedField(null)}
+                    className="h-11 w-full rounded-xl border-border bg-background text-foreground focus:ring-2 focus:ring-primary focus:border-primary transition-all dark:bg-muted/50"
+                  >
+                    <SelectValue placeholder="Selecione uma categoria" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-xl border-border bg-popover/95 backdrop-blur-xl shadow-2xl shadow-black/10 p-1">
+                    {CATEGORIES.map((c) => (
+                      <SelectItem
+                        key={c}
+                        value={c}
+                        className="rounded-lg focus:bg-primary/10 focus:text-primary cursor-pointer transition-all hover:bg-muted/50 py-2.5"
+                      >
+                        {c}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </motion.div>
 
-              <div className="space-y-2">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.4 }}
+                className="space-y-2"
+              >
                 <Label
                   htmlFor="description"
-                  className="flex items-center gap-2 text-sm font-medium"
+                  className="flex items-center gap-2 text-sm font-medium text-foreground"
                 >
-                  <FileText className="h-4 w-4" />
+                  <motion.div
+                    animate={focusedField === "description" ? { scale: [1, 1.1, 1] } : {}}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <FileText className="h-4 w-4 text-primary" />
+                  </motion.div>
                   Foco da apresentação *
                 </Label>
-                <Textarea
-                  id="description"
-                  placeholder="Ex: O Sistema Solar e seus planetas"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  required
-                  disabled={loading}
-                  rows={3}
-                  className="resize-none"
-                />
-              </div>
+                <motion.div
+                  whileFocus={{ scale: 1.01 }}
+                  className="relative"
+                >
+                  <Textarea
+                    id="description"
+                    placeholder="Ex: O Sistema Solar e seus planetas"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    onFocus={() => setFocusedField("description")}
+                    onBlur={() => setFocusedField(null)}
+                    required
+                    disabled={loading}
+                    rows={4}
+                    className="resize-none rounded-xl border-border bg-background text-foreground placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-primary focus-visible:border-primary transition-all dark:bg-muted/50"
+                  />
+                  {description && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      className="absolute -bottom-1 right-2 text-xs text-muted-foreground"
+                    >
+                      {description.length} caracteres
+                    </motion.div>
+                  )}
+                </motion.div>
+              </motion.div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.5 }}
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+              >
                 <div className="space-y-2">
                   <Label
                     htmlFor="locale"
-                    className="flex items-center gap-2 text-sm font-medium"
+                    className="flex items-center gap-2 text-sm font-medium text-foreground"
                   >
-                    <Globe className="h-4 w-4" />
+                    <motion.div
+                      animate={focusedField === "locale" ? { rotate: [0, 360] } : {}}
+                      transition={{ duration: 0.6 }}
+                    >
+                      <Globe className="h-4 w-4 text-primary" />
+                    </motion.div>
                     Idioma
                   </Label>
-                  <select
-                    id="locale"
+                  <Select
                     value={locale}
-                    onChange={(e) => setLocale(e.target.value)}
+                    onValueChange={setLocale}
                     disabled={loading}
-                    className="flex h-10 w-full rounded-lg border border-input bg-transparent px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    {LOCALES.map((l) => (
-                      <option key={l.value} value={l.value}>
-                        {l.label}
-                      </option>
-                    ))}
-                  </select>
+                    <SelectTrigger
+                      onFocus={() => setFocusedField("locale")}
+                      onBlur={() => setFocusedField(null)}
+                      className="h-11 w-full rounded-xl border-border bg-background text-foreground focus:ring-2 focus:ring-primary focus:border-primary transition-all dark:bg-muted/50"
+                    >
+                      <SelectValue placeholder="Selecione o idioma" />
+                    </SelectTrigger>
+                    <SelectContent className="rounded-xl border-border bg-popover/95 backdrop-blur-xl shadow-2xl shadow-black/10 p-1">
+                      {LOCALES.map((l) => (
+                        <SelectItem
+                          key={l.value}
+                          value={l.value}
+                          className="rounded-lg focus:bg-primary/10 focus:text-primary cursor-pointer transition-all hover:bg-muted/50 py-2.5"
+                        >
+                          {l.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div className="space-y-2">
                   <Label
                     htmlFor="slidesNumber"
-                    className="flex items-center gap-2 text-sm font-medium"
+                    className="flex items-center gap-2 text-sm font-medium text-foreground"
                   >
-                    <Hash className="h-4 w-4" />
+                    <motion.div
+                      animate={focusedField === "slidesNumber" ? { scale: [1, 1.2, 1] } : {}}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <Hash className="h-4 w-4 text-primary" />
+                    </motion.div>
                     Número de slides (3–20)
                   </Label>
-                  <Input
-                    id="slidesNumber"
-                    type="number"
-                    min={3}
-                    max={20}
-                    value={slidesNumber}
-                    onChange={(e) =>
-                      setSlidesNumber(Number(e.target.value) || 8)
-                    }
-                    disabled={loading}
-                    className="h-10"
-                  />
+                  <motion.div whileFocus={{ scale: 1.01 }}>
+                    <Input
+                      id="slidesNumber"
+                      type="number"
+                      min={3}
+                      max={20}
+                      value={slidesNumber}
+                      onChange={(e) =>
+                        setSlidesNumber(Number(e.target.value) || 8)
+                      }
+                      onFocus={() => setFocusedField("slidesNumber")}
+                      onBlur={() => setFocusedField(null)}
+                      disabled={loading}
+                      className="h-11 rounded-xl border-border bg-background text-foreground focus-visible:ring-2 focus-visible:ring-primary focus-visible:border-primary transition-all dark:bg-muted/50"
+                    />
+                  </motion.div>
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="space-y-2">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.6 }}
+                className="space-y-2 lg:col-span-3"
+              >
                 <Label
                   htmlFor="grade"
-                  className="flex items-center gap-2 text-sm font-medium"
+                  className="flex items-center gap-2 text-sm font-medium text-foreground"
                 >
-                  <GraduationCap className="h-4 w-4" />
+                  <motion.div
+                    animate={focusedField === "grade" ? { y: [0, -3, 0] } : {}}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <GraduationCap className="h-4 w-4 text-primary" />
+                  </motion.div>
                   Nível (opcional)
                 </Label>
-                <select
-                  id="grade"
+                <Select
                   value={grade}
-                  onChange={(e) => setGrade(e.target.value)}
+                  onValueChange={setGrade}
                   disabled={loading}
-                  className="flex h-10 w-full rounded-lg border border-input bg-transparent px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  {GRADES.map((g) => (
-                    <option key={g} value={g}>
-                      {g}
-                    </option>
-                  ))}
-                </select>
-              </div>
+                  <SelectTrigger
+                    onFocus={() => setFocusedField("grade")}
+                    onBlur={() => setFocusedField(null)}
+                    className="h-11 w-full rounded-xl border-border bg-background text-foreground focus:ring-2 focus:ring-primary focus:border-primary transition-all dark:bg-muted/50"
+                  >
+                    <SelectValue placeholder="Selecione o nível" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-xl border-border bg-popover/95 backdrop-blur-xl shadow-2xl shadow-black/10 p-1">
+                    {GRADES.map((g) => (
+                      <SelectItem
+                        key={g}
+                        value={g}
+                        className="rounded-lg focus:bg-primary/10 focus:text-primary cursor-pointer transition-all hover:bg-muted/50 py-2.5"
+                      >
+                        {g}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </motion.div>
 
-              <Button
-                type="submit"
-                className="w-full h-11 text-base font-medium"
-                disabled={loading}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.7 }}
+                className="pt-2"
               >
-                {loading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    {streamStatus || "Gerando..."}
-                  </>
-                ) : (
-                  "Gerar apresentação"
-                )}
-              </Button>
+                <motion.button
+                  type="submit"
+                  disabled={loading || !description.trim()}
+                  whileHover={{ scale: loading ? 1 : 1.02 }}
+                  whileTap={{ scale: loading ? 1 : 0.98 }}
+                  className="group relative w-full h-12 text-base font-semibold rounded-xl bg-primary text-primary-foreground shadow-lg shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden"
+                >
+                  {/* Animated background glow */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-primary via-primary/90 to-primary"
+                    animate={loading ? { x: ["-100%", "100%"] } : {}}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                  />
+                  <div className="relative flex items-center justify-center gap-2">
+                    {loading ? (
+                      <>
+                        <motion.div
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        >
+                          <Sparkles className="h-5 w-5" />
+                        </motion.div>
+                        <span>Abrindo editor...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Wand2 className="h-5 w-5 group-hover:rotate-12 transition-transform" />
+                        <span>Gerar apresentação</span>
+                        <motion.div
+                          className="flex gap-1"
+                          animate={{ opacity: [0.5, 1, 0.5] }}
+                          transition={{ duration: 1.5, repeat: Infinity }}
+                        >
+                          <span className="text-xs">✨</span>
+                        </motion.div>
+                      </>
+                    )}
+                  </div>
+                </motion.button>
+              </motion.div>
             </form>
 
             {/* Resultado do stream */}
@@ -379,6 +593,8 @@ export default function HomePage() {
             )}
           </CardContent>
         </Card>
+        </motion.div>
+        </div>
       </div>
     </div>
   );
